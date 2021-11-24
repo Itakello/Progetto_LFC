@@ -1,0 +1,33 @@
+per tale algoritmo e' fondamentale assumere definizioni piu' generali 
+degli automi a stati finiti: la generalizzazione consiste nel fatto che 
+invece di un unico stato iniziale si ammette un insieme di stati 
+iniziali (quindi il primo passo della subset construction e' considerare la epsilon-chiusura dell'insieme degli stati iniziali)
+
+buona serata
+
+p.s. nella pagina allegata "det" sta per "determinizzazione", cioe' 
+applicazione di subset construction
+
+---------------------------------------------------------------------------------------------------------------------------
+
+L'implementazione deve essere compilabile con gcc 11.2
+
+Il report accompagnatorio deve essere un pdf in cui si specificano:
+
+- come fornire l'input (obbligatorio)
+
+- come leggere l'output (obbligatorio)
+
+- che tipo di strutture dati sono state utilizzate per memorizzare grammatiche e/o automi e/o tabelle e/o altri elementi rilevanti al caso (facoltativo)
+
+- che tipo di test sono stati fatti (facoltativo)
+
+Codice e report devono essere caricati in unico zip sul moodle entro le scadenze fissate (a questo scopo, una settimana prima della scadenza per la consegna, sara' inserito un apposito "compito moodle").
+
+Per chi intende avvalersi del "bonus progetto" nel primo appello la scadenza di presentazione del progetto e' alle ore 20:00 del 20/12/2021
+
+Per chi intende avvalersi del "bonus progetto" nel secondo appello la scadenza di presentazione del progetto e' alle ore ore 20:00 del 31/01/2022
+
+Le scadenze di presentazione per gli appelli estivi saranno pubblicate in futuro 
+
+Il progetto puo' essere presentato una sola volta e il "bonus progetto" vale per un solo appello.
