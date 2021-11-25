@@ -4,13 +4,11 @@
 
 int main(int argc, char const* argv[]) {
 
-	printf("Hello world\n");
-
 	grammar g;
 	if (!getGrammarFile(&g, "input.txt")) {
 		getGrammarCin(&g);
 		}
-	gram_print(&g);
+	//gram_print(&g);
 
 
 	/* production p1, p2, p3;

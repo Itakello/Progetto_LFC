@@ -1,8 +1,11 @@
 make.exe --dry-run --keep-going --print-directory
 make: Entering directory '/g/My Drive/University/Anno 3/LFC/Progetto_LFC'
-gcc -c -o .\data_s\vector.o .\data_s\vector.c -I.
+gcc -c -o main.o main.c -I.
+ 
+gcc -c -o .\classes\grammar.o .\classes\grammar.c -I.
  
 gcc -c -o .\classes\utility.o .\classes\utility.c -I.
-gcc -o main main.o .\classes\production.c .\data_s\vector.o .\classes\grammar.o .\classes\utility.o -I.
+gcc -o main main.o .\classes\production.c .\classes\grammar.o .\classes\utility.o -I.
+ 
 make: Leaving directory '/g/My Drive/University/Anno 3/LFC/Progetto_LFC'
  

@@ -12,21 +12,20 @@ bool getGrammarFile(grammar* g, char* input) {
 		return false;
 		}
 
-	// Read file
+
 	gram_init(g);
-	production p1;
-	prod_init(&p1);
-	driver_add(&p1, "S");
-	body_add(&p1, "#");
-	prod_add(g, &p1);
-	/* do 	{
+
+	// Read file
+
+	do {
 		c = (char)fgetc(fp);
 
 
-		} while (c != EOF); */
+		} while (c != EOF);
+		gram_print(g);
 
-	fclose(fp);
-	return true;
+		fclose(fp);
+		return true;
 	}
 bool getGrammarCin(grammar* g) {
 	return true;

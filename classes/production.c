@@ -1,33 +1,43 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "production.h"
 
 void prod_init(production* p) {
-	//printf("Creata prod \n");
-	vector_init(&p->driver);
-	vector_init(&p->body);
+	p->tot_body = 0;
+	p->tot_driver = 0;
 	}
-void driver_add(production* p, char* c) {
-	vector_add(&p->driver, c);
-	//printf("Driver added: %c\n", ((char*)vector_get(&p->driver, vector_total(&p->driver) - 1))[0]);
-	//printf("\nSize: %d\n", vector_total(&p->driver));
+void driver_add(production* p, char c) {
+	if (p->tot_driver == DRIVER_CAP)
+		perror("Too many elems");
+	else
+		p->driver[p->tot_driver++] = c;
+	//printf("D added: %c\n", p->driver[p->tot_driver - 1]);
 	}
-void body_add(production* p, char* c) {
-	vector_add(&p->body, c);
-	//printf("Body added: %c\n", ((char*)vector_get(&p->body, vector_total(&p->body) - 1))[0]);
+void body_add(production* p, char c) {
+	if (p->tot_body == BODY_CAP) {
+		perror("Too many elems");
+		}
+	else {
+		p->body[p->tot_body++] = c;
+		}
+	//printf("B added: %c\n", p->body[p->tot_body - 1]);
 	}
 void prod_print(production* p) {
-	for (int i = 0; i < vector_total(&p->driver); i++) {
-		printf("%c", ((char*)vector_get(&p->driver, i))[0]);
+	//printf("%d - %d ", p->tot_driver, p->tot_body);
+	for (int i = 0; i < p->tot_driver; i++) {
+		printf("%c ", p->driver[i]);
 		}
-	printf(" -> ");
-	for (int i = 0; i < vector_total(&p->body); i++) {
-		printf("%c", ((char*)vector_get(&p->body, i))[0]);
+	printf("-> ");
+	for (int j = 0; j < p->tot_body; j++) {
+		printf("%c ", p->body[j]);
 		}
 	printf("\n");
 	}
 void prod_delete(production* p) {
-	vector_free(&p->driver);
-	vector_free(&p->body);
+	memset(p->body, 0, BODY_CAP);
+	memset(p->driver, 0, DRIVER_CAP);
+	p->tot_body = 0;
+	p->tot_driver = 0;
 	}
