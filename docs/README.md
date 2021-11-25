@@ -12,6 +12,8 @@ La grammatica può essere inserita:
 * in un file `input.txt` da inserire nella cartella principale del progetto
 * da linea di comando, inserendo un doppio a capo alla fine della grammatica
 
+Nel caso in cui NON esista il file, verrà letta da linea di comando.
+
 _**NOTE**_ : Utilizzare il file `input-example.txt` per un'esempio
 
 ## Come fornire l'output

@@ -1,0 +1,11 @@
+{
+	"makefile.extensionOutputFolder": "./.vscode",
+	"makefile.launchConfigurations": [
+		{
+			"cwd": "\\g\\My Drive\\University\\Anno 3\\LFC\\Progetto_LFC",
+			"binaryPath": "\\g\\My Drive\\University\\Anno 3\\LFC\\Progetto_LFC\\main",
+			"binaryArgs": []
+		}
+	],
+	"C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools"
+}

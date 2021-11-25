@@ -29,6 +29,10 @@ void vector_add(vector* v, void* item) {
 	if (v->capacity == v->total)
 		vector_resize(v, v->capacity * 2);
 	v->items[v->total++] = item;
+	/*printf("Curr-elems: ");
+		for (int i = 0; i < vector_total(v); i++) {
+			printf("%d:%c ", i, ((char*)vector_get(v, i))[0]);
+			} */
 	}
 
 void vector_set(vector* v, int index, void* item) {
