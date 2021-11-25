@@ -16,7 +16,10 @@ Inserire una grammatica a scelta, tale per cui :
 * il carattere ɛ sia un #
 * il carattere | sia sempre un |
 
-⚠️Warning⚠️ : I caratteri devono essere intervallati da uno spazio " "
+I caratteri possono essere intervallati :
+* da uno spazio ` `
+* da una virgola `,`
+* da un trattino `-`
 
 La grammatica può essere inserita:
 * in un file `input.txt` da inserire nella cartella principale del progetto
@@ -25,6 +28,13 @@ La grammatica può essere inserita:
 Nel caso in cui NON esista il file, verrà letta da linea di comando.
 
 _**NOTE**_ : Utilizzare il file `input-example.txt` per un'esempio
+
+### Possibili errori
+
+1. Non inserire il segno di produzione "->"
+2. Inserire 2 simboli senza intervallo (legge solo il primo)
+3. Driver senza simbolo non-terminale
+4. Inserimento di troppi simboli driver o body (>30)
 
 ### Tramite DFA
 

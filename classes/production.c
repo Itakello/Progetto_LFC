@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "utility.h"
 #include "production.h"
 
 void prod_init(production* p) {
@@ -10,14 +11,14 @@ void prod_init(production* p) {
 	}
 void driver_add(production* p, char c) {
 	if (p->tot_driver == DRIVER_CAP)
-		perror("Too many elems");
+		perr("Too many elems", 3);
 	else
 		p->driver[p->tot_driver++] = c;
 	//printf("D added: %c\n", p->driver[p->tot_driver - 1]);
 	}
 void body_add(production* p, char c) {
 	if (p->tot_body == BODY_CAP) {
-		perror("Too many elems");
+		perr("Too many elems", 3);
 		}
 	else {
 		p->body[p->tot_body++] = c;

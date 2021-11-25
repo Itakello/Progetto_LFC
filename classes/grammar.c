@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "utility.h"
 #include "grammar.h"
 
 void gram_init(grammar* g) {
