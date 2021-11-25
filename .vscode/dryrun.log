@@ -1,6 +1,5 @@
-make --dry-run --always-make --keep-going --print-directory
-make: Entering directory '/mnt/g/My Drive/University/Anno 3/LFC/Progetto_LFC'
-make: Leaving directory '/mnt/g/My Drive/University/Anno 3/LFC/Progetto_LFC'
- 
-make: *** No rule to make target 'main.', needed by 'all'.
+make.exe --dry-run --keep-going --print-directory
+make: Entering directory '/g/My Drive/University/Anno 3/LFC/Progetto_LFC'
+gcc -o main main.o classes/production.o classes/grammar.o classes/utility.o
+make: Leaving directory '/g/My Drive/University/Anno 3/LFC/Progetto_LFC'
  

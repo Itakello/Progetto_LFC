@@ -10,5 +10,6 @@ bool is_nonTerm(const char);
 int parseLine(const char*, production*);
 bool getGrammarFile(grammar*, const char*);
 bool getGrammarCin(grammar*);
+size_t getline(char**, size_t*, FILE*);
 
 #endif
