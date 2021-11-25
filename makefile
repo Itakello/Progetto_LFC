@@ -1,11 +1,11 @@
 
 CC=gcc
-CFLAGS=-I.
-DEPS = .\classes\production.h .\classes\grammar.h .\classes\utility.h
-OBJ = main.o .\classes\production.c .\classes\grammar.o .\classes\utility.o
+DEPS = ./classes/production.h ./classes/grammar.h ./classes/utility.h
+OBJ = main.o ./classes/production.o ./classes/grammar.o ./classes/utility.o
 
+all:main.
 %.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CC) -c -o $@ $<
 
 main: $(OBJ)
-	@ $(CC) -o $@ $^ $(CFLAGS)
+	@ $(CC) -o $@ $^

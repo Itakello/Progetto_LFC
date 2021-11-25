@@ -3,6 +3,7 @@
 #include <string.h>
 #include "utility.h"
 
+
 void perr(const char* strerr, int err) {
 	fprintf(stderr, "\033[0;31m%s\033[0m\n", strerr);
 	if (err > 0) {
@@ -47,9 +48,6 @@ int parseLine(const char* line, production* p) {
 	}
 
 bool getGrammarFile(grammar* g, const char* input) {
-	const char EOL = '\n';
-	char c;
-
 	FILE* file = fopen(input, "r");
 	if (!file) { // File not existing
 		return false;
@@ -73,5 +71,17 @@ bool getGrammarFile(grammar* g, const char* input) {
 	}
 
 bool getGrammarCin(grammar* g) {
+	gram_init(g);
+	char* line = NULL;
+	size_t len = 0;
+	ssize_t read;
+	while ((read = getline(&line, &len, stdin)) != -1) {
+		production p;
+		int res = parseLine(line, &p);
+		if (res == 0)
+			prod_add(g, p);
+		else
+			return res;
+		}
 	return true;
 	}
