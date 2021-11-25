@@ -6,7 +6,14 @@ int main(int argc, char const* argv[]) {
 
 	printf("Hello world\n");
 
-	production p1, p2, p3;
+	grammar g;
+	if (!getGrammarFile(&g, "input.txt")) {
+		getGrammarCin(&g);
+		}
+	gram_print(&g);
+
+
+	/* production p1, p2, p3;
 	prod_init(&p1);
 	prod_init(&p2);
 	prod_init(&p3);
@@ -33,12 +40,8 @@ int main(int argc, char const* argv[]) {
 	prod_add(&g, &p2);
 	prod_add(&g, &p3);
 
-	gram_print(&g);
+	gram_print(&g); */
 
-	/* grammar g = getGrammarFile("input.txt");
-	if (g == NULL) {
-		g = getGrammarCin();
-		} */
 
 	return 0;
 	}

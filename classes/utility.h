@@ -2,8 +2,9 @@
 #define UTILITY_H
 
 #include "grammar.h"
+#include <stdbool.h>
 
-grammar getGrammarCin();
-grammar getGrammarFile();
+bool getGrammarFile(grammar*, char*);
+bool getGrammarCin(grammar*);
 
 #endif

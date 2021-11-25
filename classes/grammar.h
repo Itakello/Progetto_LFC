@@ -10,6 +10,7 @@ typedef struct grammar {
 
 void gram_init(grammar*);
 void prod_add(grammar*, production*);
+void set_startS(grammar*);
 void gram_print(grammar*);
 void gram_delete(grammar*);
 
