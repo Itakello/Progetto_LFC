@@ -3,6 +3,7 @@
 #include "classes/grammar.h"
 
 int main(int argc, char const* argv[]) {
+	printf("Start\n");
 	grammar g;
 	if (!getGrammarFile(&g, "input.txt")) {
 		getGrammarCin(&g);

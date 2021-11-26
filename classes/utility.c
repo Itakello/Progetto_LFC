@@ -16,7 +16,7 @@ bool is_voc(const char c) {
 		return true;
 	if ((c >= 'A') && (c <= 'Z'))
 		return true;
-	if (c == '#' || c == '|')
+	if (c == '#')
 		return true;
 	return false;
 	}
@@ -24,31 +24,34 @@ bool is_voc(const char c) {
 bool is_nonTerm(const char c) {
 	return ((c >= 'A') && (c <= 'Z'));
 	}
+bool is_Term(const char c) {
+	return ((c >= 'a') && (c <= 'z'));
+	}
+bool is_epsilon(const char c) {
+	return (c == '#');
+	}
 
-void parseLine(const char* line, production* p) {
-	prod_init(p);
+void parseLine(char* line, grammar* g) {
+	if (line[strlen(line) - 1] == '\n')
+		line[strlen(line) - 1] = '\0';
+	char driver = line[0];
 	char* del = strstr(line, "->");
 	if (del == NULL) {
 		perr("No production (->) sign", 1);
 		}
-	char drivers[LENGTH_LINE], bodyes[LENGTH_LINE];
+	char bodyes[LENGTH_LINE];
 	int pos = del - line;
-	strncpy(drivers, line, pos);
-	strncpy(bodyes, line + pos + 3, LENGTH_LINE);
-	char* pch;
-	pch = strtok(drivers, " ,.-");
-	bool has_nT = false;
-	while (pch != NULL) { // Insertion driver
-		if (*pch != ' ' && *pch != '\n' && *pch != '0')
-			driver_add(p, *pch);
-		pch = strtok(NULL, " ,.-");
-		}
-
-	pch = strtok(bodyes, " ,.-");
-	while (pch != NULL) { // Insertion body
-		if (*pch != ' ' && *pch != '\n' && *pch != '0')
-			body_add(p, *pch);
-		pch = strtok(NULL, " ,.-");
+	strncpy(bodyes, line + pos + 2, LENGTH_LINE);
+	if (line[1] != ' ' || pos != 2)
+		perr("Driver : too many values or no space between the driver and ->", 2);
+	char* pch = strtok(bodyes, "|");
+	while (pch != NULL) { // Insertion
+		production p;
+		set_driver(&p, driver);
+		body_add(&p, pch);
+		prod_add(g, p);
+		body_delete(&p);
+		pch = strtok(NULL, "|");
 		}
 	}
 
@@ -63,9 +66,7 @@ bool getGrammarFile(grammar* g, const char* input) {
 
 	// Read file
 	while (fgets(line, sizeof(line), file)) {
-		production p;
-		parseLine(line, &p);
-		prod_add(g, p);
+		parseLine(line, g);
 		}
 	fclose(file);
 	return true;
@@ -77,9 +78,7 @@ bool getGrammarCin(grammar* g) {
 	size_t len = 0;
 	ssize_t read;
 	while ((read = getline(&line, &len, stdin)) != 1) {
-		production p;
-		parseLine(line, &p);
-		prod_add(g, p);
+		parseLine(line, g);
 		}
 	return true;
 	}

@@ -11,14 +11,14 @@ L'input può essere fornito come :
 ### Tramite grammatica libera regolare
 
 Inserire una grammatica a scelta, tale per cui :
-* il primo non-terminale sia lo *stato iniziale*
+* il non-terminale del primo driver sia lo *stato iniziale*
 * i non-terminali siano una lettera maiuscola ($A...Z$)
 * i terminali siano una lettera minuscola ($a...z$)
 * il carattere ɛ sia un $\#$
 * il carattere | sia sempre un $|$
 
 Essendo una grammatica regolare dovrà avere produzioni tali che:
-1. i driver siano composti solamente da non-terminali
+1. i driver delle varie produzioni siano composti solamente da un non-terminale
 2. i body siano composti
    1. da un solo terminale ($A \to a$)
    2. da un terminale e un non-terminale ($A \to aB$)
@@ -41,9 +41,8 @@ _**NOTE**_ : Utilizzare il file `input-example.txt` per un'esempio
 
 1. Non inserire il segno di produzione "->"
 2. Inserire 2 simboli senza intervallo (legge solo il primo)
-3. Driver senza simbolo non-terminale
-4. Inserimento di troppi simboli driver o body (>30)
-5. Inserimento di spazi o altri caratteri dopo l'inserimento dell'ultimo elemento del body di una produzione
+3. Inserire un driver terminale
+4. Inserimento di spazi o altri caratteri dopo l'inserimento dell'ultimo elemento del body di una produzione
 
 ### Tramite DFA
 

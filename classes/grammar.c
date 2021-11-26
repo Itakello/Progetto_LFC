@@ -14,29 +14,31 @@ void prod_add(grammar* g, production p) {
 	else {
 		g->prods[g->tot_prods++] = p;
 		if (g->tot_prods == 1)
-			g->start_s = g->prods[0].driver[0]; // First is the SS
+			g->start_s = g->prods[0].driver; // First is the SS
 		}
-	}
-void set_startS(grammar* g) {
-	g->start_s = g->prods[0].driver[0];
 	}
 void checkGrammar(grammar* g) {
 	for (int i = 0; i < g->tot_prods; i++) {
 		production p = g->prods[i];
-		for (int j = 0; j < p.tot_driver; j++) {
-			if (!is_voc(p.driver[j]))
-				perr("Driver : Not a correct value", 5);
-			if (!is_nonTerm(p.driver[j]))
-				perr("Driver : Not a non-terminal", 6);
-			}
+		if (!is_voc(p.driver))
+			perr("Driver : Not a correct value", 5);
+		if (!is_nonTerm(p.driver))
+			perr("Driver : Not a non-terminal", 6);
 		for (int j = 0; j < p.tot_body; j++) {
 			if (!is_voc(p.body[j]))
 				perr("Body : Not a correct value", 5);
 			}
-		if (p.tot_driver == 0)
-			perr("Insert at least a driver element", 4);
 		if (p.tot_body == 0)
-			perr("Insert at least a body element", 4);
+			perr("Insert at least 1 body element", 4);
+		if (p.tot_body == 1)
+			if (!is_epsilon(p.body[0]) && !is_Term(p.body[0])) // A-># o A->a...z
+				perr("Insert a regular grammar", 7);
+		if (p.tot_body == 2) {
+			if (is_nonTerm(p.body[0]) && !is_Term(p.body[1]))
+				perr("Insert a regular grammar", 7);
+			if (is_Term(p.body[0]) && !is_nonTerm(p.body[1]))
+				perr("Insert a regular grammar", 7);
+			}
 		}
 
 	}
@@ -46,11 +48,4 @@ void gram_print(grammar* g) {
 	for (int i = 0; i < g->tot_prods; i++) {
 		prod_print(&g->prods[i]);
 		}
-	}
-void gram_delete(grammar* g) {
-	for (int i = 0; i < g->tot_prods; i++) {
-		prod_delete(&g->prods[i]);
-		}
-
-
 	}
