@@ -11,63 +11,78 @@ void perr(const char* strerr, int err) {
 		}
 	}
 
+bool is_voc(const char c) {
+	if ((c >= 'a') && (c <= 'z'))
+		return true;
+	if ((c >= 'A') && (c <= 'Z'))
+		return true;
+	if (c == '#' || c == '|')
+		return true;
+	return false;
+	}
+
 bool is_nonTerm(const char c) {
 	return ((c >= 'A') && (c <= 'Z'));
 	}
 
-int parseLine(const char* line, production* p) {
+void parseLine(const char* line, production* p) {
 	prod_init(p);
 	char* del = strstr(line, "->");
 	if (del == NULL) {
 		perr("No production (->) sign", 1);
-		return 1;
 		}
 	char drivers[LENGTH_LINE], bodyes[LENGTH_LINE];
 	int pos = del - line;
-	strncpy(drivers, line, pos - 1);
-	strncpy(bodyes, line + pos + 2, LENGTH_LINE);
+	strncpy(drivers, line, pos);
+	strncpy(bodyes, line + pos + 3, LENGTH_LINE);
+	//printf("|D: %s| |B: %s|\n", drivers, bodyes);
 	char* pch;
 	pch = strtok(drivers, " ,-");
 	bool has_nT = false;
 	while (pch != NULL) {
+		if (!is_voc(*pch))
+			perr("Driver : Not a correct value", 5);
 		if (is_nonTerm(*pch))
 			has_nT = true;
-		driver_add(p, *pch);
+		if (*pch != ' ' && *pch != '\n' && *pch != '0') {
+			driver_add(p, *pch);
+			}
 		pch = strtok(NULL, " ,.-");
 		}
 	if (!has_nT) {
 		perr("Non-terminal missing in driver", 2);
-		return 2;
 		}
 	pch = strtok(bodyes, " ,-");
 	while (pch != NULL) {
+		//printf(">%c\n", *pch);
+		if (!is_voc(*pch))
+			perr("Body : Not a correct value", 5);
 		body_add(p, *pch);
 		pch = strtok(NULL, " ,.-");
 		}
-	return 0;
+	if (p->tot_driver == 0)
+		perr("Insert at least a driver element", 4);
+	if (p->tot_body == 0)
+		perr("Insert at least a body element", 4);
 	}
 
 bool getGrammarFile(grammar* g, const char* input) {
 	FILE* file = fopen(input, "r");
 	if (!file) { // File not existing
+		printf("File non esistente\n");
 		return false;
 		}
-	//printf("Doing it\n");
 	gram_init(g);
 	char line[LENGTH_LINE];
 
 	// Read file
 	while (fgets(line, sizeof(line), file)) {
 		production p;
-		int res = parseLine(line, &p);
-		if (res == 0)
-			prod_add(g, p);
-		else
-			return res;
+		parseLine(line, &p);
+		prod_add(g, p);
 		}
-
 	fclose(file);
-	return 0;
+	return true;
 	}
 
 bool getGrammarCin(grammar* g) {
@@ -75,13 +90,12 @@ bool getGrammarCin(grammar* g) {
 	char* line = NULL;
 	size_t len = 0;
 	ssize_t read;
-	while ((read = getline(&line, &len, stdin)) != -1) {
+	while ((read = getline(&line, &len, stdin)) != 1) {
 		production p;
-		int res = parseLine(line, &p);
-		if (res == 0)
-			prod_add(g, p);
-		else
-			return res;
+		//printf("%d - %s", read, line);
+		parseLine(line, &p);
+		prod_add(g, p);
+		//prod_print(&p);
 		}
 	return true;
 	}

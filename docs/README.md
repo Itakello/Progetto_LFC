@@ -4,6 +4,7 @@
 
 L'input può essere fornito come :
 1. Grammatica (da `cin` o da `input.txt`)
+   1. Verrà poi trasformato in DFA tramite `thompson_construction()`
 2. DFA
 3. NFA
 
@@ -35,6 +36,7 @@ _**NOTE**_ : Utilizzare il file `input-example.txt` per un'esempio
 2. Inserire 2 simboli senza intervallo (legge solo il primo)
 3. Driver senza simbolo non-terminale
 4. Inserimento di troppi simboli driver o body (>30)
+5. Inserimento di spazi o altri caratteri dopo l'inserimento dell'ultimo elemento del body di una produzione
 
 ### Tramite DFA
 
@@ -46,9 +48,6 @@ _**NOTE**_ : Utilizzare il file `input-example.txt` per un'esempio
 
 ## Strutture dati e automi utilizzati
 
-1. Vector, utilizzato per :
-   1. Vocaboli nelle produzioni
-   2. Produzioni nella grammatica
 
 ## Tipo di test fatti
 

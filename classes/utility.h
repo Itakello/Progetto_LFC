@@ -7,7 +7,7 @@
 
 void perr(const char*, int);
 bool is_nonTerm(const char);
-int parseLine(const char*, production*);
+void parseLine(const char*, production*);
 bool getGrammarFile(grammar*, const char*);
 bool getGrammarCin(grammar*);
 size_t getline(char**, size_t*, FILE*);

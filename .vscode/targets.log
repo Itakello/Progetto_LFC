@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Nov 26 00:14:37 2021
+# Make data base, printed on Fri Nov 26 12:27:16 2021
 
 # Variables
 
@@ -25,7 +25,7 @@ USERPROFILE = C:\Users\maxst
 # environment
 LOCALAPPDATA = C:\Users\maxst\AppData\Local
 # environment
-VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-04efd19c-30ff-461c-9f5c-305bc27bb21d-sock
+VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-583fd0d3-2253-481f-b734-38ed7f22bfc4-sock
 # environment
 VSCODE_CWD = C:\Users\maxst\AppData\Local\Programs\Microsoft VS Code
 # environment
@@ -39,7 +39,7 @@ MAKE_COMMAND := make
 # automatic
 @D = $(patsubst %/,%,$(dir $@))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_24524_VYZJAONDJAKBAQMJ
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_8472_NZRPIXBSXKEBUMDZ
 # environment
 FPS_BROWSER_USER_PROFILE_STRING = Default
 # environment
@@ -93,7 +93,7 @@ MAKEFILE_LIST := makefile
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 24524
+VSCODE_PID = 8472
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
@@ -229,14 +229,15 @@ PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 142 Stepping 10, GenuineIntel
 
 # Directories
 
-# . (device 428019990, inode -2328555076339377775): 14 files, no impossibilities.
+# . (device 428019990, inode -2328555076339377775): 15 files, no impossibilities.
 
-# 14 files, no impossibilities in 1 directories.
+# 15 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
 %.o: %.c classes/production.h classes/grammar.h classes/utility.h
 #  recipe to execute (from 'makefile', line 7):
+ 
 	$(CC) -c -o $@ $<
 
 # 1 implicit rules, 0 (0.0%) terminal.
@@ -301,12 +302,12 @@ makefile:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 27 / storage = 268 B / avg = 9 B
-# current buf: size = 8162 B / used = 268 B / count = 27 / avg = 9 B
+# strcache buffers: 1 (0) / strings = 28 / storage = 278 B / avg = 9 B
+# current buf: size = 8162 B / used = 278 B / count = 28 / avg = 9 B
 
-# strcache performance: lookups = 33 / hit rate = 18%
+# strcache performance: lookups = 34 / hit rate = 17%
 # hash-table stats:
-# Load=27/8192=0%, Rehash=0, Collisions=0/33=0%
-# Finished Make data base on Fri Nov 26 00:14:37 2021
+# Load=28/8192=0%, Rehash=0, Collisions=0/34=0%
+# Finished Make data base on Fri Nov 26 12:27:16 2021
 
  
