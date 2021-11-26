@@ -7,6 +7,7 @@ int main(int argc, char const* argv[]) {
 	if (!getGrammarFile(&g, "input.txt")) {
 		getGrammarCin(&g);
 		}
+	checkGrammar(&g);
 	gram_print(&g);
 
 	return 0;

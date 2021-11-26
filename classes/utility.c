@@ -5,7 +5,7 @@
 
 
 void perr(const char* strerr, int err) {
-	fprintf(stderr, "\033[0;31m%s\033[0m\n", strerr);
+	fprintf(stderr, "\033[0;31mError: %s\033[0m\n", strerr);
 	if (err > 0) {
 		exit(err);
 		}
@@ -35,41 +35,27 @@ void parseLine(const char* line, production* p) {
 	int pos = del - line;
 	strncpy(drivers, line, pos);
 	strncpy(bodyes, line + pos + 3, LENGTH_LINE);
-	//printf("|D: %s| |B: %s|\n", drivers, bodyes);
 	char* pch;
-	pch = strtok(drivers, " ,-");
+	pch = strtok(drivers, " ,.-");
 	bool has_nT = false;
-	while (pch != NULL) {
-		if (!is_voc(*pch))
-			perr("Driver : Not a correct value", 5);
-		if (is_nonTerm(*pch))
-			has_nT = true;
-		if (*pch != ' ' && *pch != '\n' && *pch != '0') {
+	while (pch != NULL) { // Insertion driver
+		if (*pch != ' ' && *pch != '\n' && *pch != '0')
 			driver_add(p, *pch);
-			}
 		pch = strtok(NULL, " ,.-");
 		}
-	if (!has_nT) {
-		perr("Non-terminal missing in driver", 2);
-		}
-	pch = strtok(bodyes, " ,-");
-	while (pch != NULL) {
-		//printf(">%c\n", *pch);
-		if (!is_voc(*pch))
-			perr("Body : Not a correct value", 5);
-		body_add(p, *pch);
+
+	pch = strtok(bodyes, " ,.-");
+	while (pch != NULL) { // Insertion body
+		if (*pch != ' ' && *pch != '\n' && *pch != '0')
+			body_add(p, *pch);
 		pch = strtok(NULL, " ,.-");
 		}
-	if (p->tot_driver == 0)
-		perr("Insert at least a driver element", 4);
-	if (p->tot_body == 0)
-		perr("Insert at least a body element", 4);
 	}
 
 bool getGrammarFile(grammar* g, const char* input) {
 	FILE* file = fopen(input, "r");
 	if (!file) { // File not existing
-		printf("File non esistente\n");
+		printf("File %s not found\n", input);
 		return false;
 		}
 	gram_init(g);
@@ -92,10 +78,8 @@ bool getGrammarCin(grammar* g) {
 	ssize_t read;
 	while ((read = getline(&line, &len, stdin)) != 1) {
 		production p;
-		//printf("%d - %s", read, line);
 		parseLine(line, &p);
 		prod_add(g, p);
-		//prod_print(&p);
 		}
 	return true;
 	}

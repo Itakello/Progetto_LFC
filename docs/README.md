@@ -3,19 +3,26 @@
 ## Come fornire l'input
 
 L'input può essere fornito come :
-1. Grammatica (da `cin` o da `input.txt`)
+1. Grammatica libera regolare (da `cin` o da `input.txt`)
    1. Verrà poi trasformato in DFA tramite `thompson_construction()`
 2. DFA
 3. NFA
 
-### Tramite grammatica
+### Tramite grammatica libera regolare
 
 Inserire una grammatica a scelta, tale per cui :
 * il primo non-terminale sia lo *stato iniziale*
-* i non-terminali siano una lettera maiuscola (A...Z)
-* i terminali siano una lettera minuscola (a...z)
-* il carattere ɛ sia un #
-* il carattere | sia sempre un |
+* i non-terminali siano una lettera maiuscola ($A...Z$)
+* i terminali siano una lettera minuscola ($a...z$)
+* il carattere ɛ sia un $\#$
+* il carattere | sia sempre un $|$
+
+Essendo una grammatica regolare dovrà avere produzioni tali che:
+1. i driver siano composti solamente da non-terminali
+2. i body siano composti
+   1. da un solo terminale ($A \to a$)
+   2. da un terminale e un non-terminale ($A \to aB$)
+   3. da una parola vuota ($A \to \epsilon$)
 
 I caratteri possono essere intervallati :
 * da uno spazio ` `
@@ -24,7 +31,7 @@ I caratteri possono essere intervallati :
 
 La grammatica può essere inserita:
 * in un file `input.txt` da inserire nella cartella principale del progetto
-* da linea di comando, inserendo un doppio a capo alla fine della grammatica
+* da linea di comando, inserendo un'ulteriore a capo `\n` dopo l'ultima produzione
 
 Nel caso in cui NON esista il file, verrà letta da linea di comando.
 
