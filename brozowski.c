@@ -18,3 +18,5 @@ NOTE 2 : It doesn't utilize determinism
 /* DFA brzozowski(FiniteAutoma fa) {
 	return det(rev(det(rev(fa))))
 	} */
+
+https://en.wikipedia.org/wiki/DFA_minimization#Brzozowski's_algorithm

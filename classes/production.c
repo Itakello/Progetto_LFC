@@ -5,9 +5,6 @@
 #include "utility.h"
 #include "production.h"
 
-void set_driver(production* p, char c) {
-	p->driver = c;
-	}
 void body_add(production* p, const char* c) {
 	int len = strlen(c);
 	int pos = 0;
@@ -18,6 +15,7 @@ void body_add(production* p, const char* c) {
 			}
 		}
 	}
+
 void prod_reverse(production* p) {
 	if (p->tot_body == 2) {
 		char c = p->body[0];
@@ -26,9 +24,11 @@ void prod_reverse(production* p) {
 		p->driver = c;
 		}
 	}
+
 void body_delete(production* p) {
 	p->tot_body = 0;
 	}
+
 void prod_print(production* p) {
 	printf("%c -> ", p->driver);
 	for (int j = 0; j < p->tot_body; j++) {

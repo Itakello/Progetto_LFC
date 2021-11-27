@@ -1,3 +1,3 @@
-A -> Ba | Ab | b
-B -> Ca | Bb
-C -> Aa | Cb
+S -> aA | # | bS
+A -> aB | bA
+B -> aS | bB

@@ -17,11 +17,9 @@ typedef struct grammar {
 	}grammar;
 
 void gram_init(grammar*);
-void prod_add(grammar*, production);
-void addVocSet(grammar*, production*);
+void prod_add(grammar*, const production);
 void gram_reverse(grammar*);
-void addVoc(grammar*, char);
-void addSet(grammar*, char);
+void addVocSet(grammar*, const production*);
 void checkGrammar(grammar*);
 void gram_print(grammar*);
 

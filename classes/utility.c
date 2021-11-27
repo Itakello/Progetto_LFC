@@ -11,13 +11,7 @@ void perr(const char* strerr, int err) {
 		}
 	}
 bool is_voc(const char c) {
-	if ((c >= 'a') && (c <= 'z'))
-		return true;
-	if ((c >= 'A') && (c <= 'Z'))
-		return true;
-	if (c == '#')
-		return true;
-	return false;
+	return (is_nonTerm(c) || is_epsilon(c) || is_Term(c));
 	}
 bool is_nonTerm(const char c) {
 	return ((c >= 'A') && (c <= 'Z'));
@@ -45,7 +39,7 @@ void parseLine(char* line, grammar* g) {
 	char* pch = strtok(bodyes, "|");
 	while (pch != NULL) { // Insertion
 		production p;
-		set_driver(&p, driver);
+		p.driver = driver;
 		body_add(&p, pch);
 		prod_add(g, p);
 		body_delete(&p);

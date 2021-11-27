@@ -19,8 +19,6 @@ typedef struct finiteAutoma {
 
 void fa_init(finiteAutoma*);
 void fa_addGram(finiteAutoma*, grammar*);
-void fa_addGramSx(finiteAutoma*, grammar*);
-void fa_addGramDx(finiteAutoma*, grammar*);
 void fa_addProd(finiteAutoma*, char, char, char);
 void fa_addAlpha(finiteAutoma*, char);
 void fa_addState(finiteAutoma*, char);

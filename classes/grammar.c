@@ -3,15 +3,17 @@
 
 #include "utility.h"
 #include "grammar.h"
+#include "../data_s/set.h"
 
 void gram_init(grammar* g) {
 	g->tot_prods = 0;
 	g->tot_voc = 0;
 	g->tot_set = 0;
+	g->type_g = 0; // Undefined
 	g->start_s = '-';
-	g->type_g = 0;
 	}
-void prod_add(grammar* g, production p) {
+
+void prod_add(grammar* g, const production p) {
 	if (g->tot_prods == PRODS_CAP)
 		perror("Too many prods");
 	else {
@@ -21,41 +23,22 @@ void prod_add(grammar* g, production p) {
 			g->start_s = g->prods[0].driver; // First is the SS
 		}
 	}
-void addVocSet(grammar* g, production* p) {
-	addSet(g, p->driver);
-	for (int i = 0; i < p->tot_body; i++) {
-		addVoc(g, p->body[i]);
-		addSet(g, p->body[i]);
-		}
-	}
+
 void gram_reverse(grammar* g) {
 	for (int i = 0; i < g->tot_prods; i++) {
 		prod_reverse(&g->prods[i]);
 		}
 	}
 
-void addVoc(grammar* g, char c) {
-	bool found = false;
-	if (is_Term(c) || c == '#') {
-		for (int i = 0; i < g->tot_voc; i++) {
-			if (g->voc[i] == c) {
-				found = true;
-				}
-			}
-		if (!found)
-			g->voc[g->tot_voc++] = c;
+void addVocSet(grammar* g, const production* p) {
+	addElement(g->set_symb, p->driver, g->tot_set);
+	for (int i = 0; i < p->tot_body; i++) {
+		if (is_Term(p->body[i]) || is_epsilon(p->body[i]))
+			addElement(g->voc, p->body[i], g->tot_voc);
+		addElement(g->set_symb, p->body[i], g->tot_set);
 		}
 	}
-void addSet(grammar* g, char c) {
-	bool found = false;
-	for (int i = 0; i < g->tot_set; i++) {
-		if (g->set_symb[i] == c) {
-			found = true;
-			}
-		}
-	if (!found)
-		g->set_symb[g->tot_set++] = c;
-	}
+
 void checkGrammar(grammar* g) {
 	for (int i = 0; i < g->tot_prods; i++) {
 		production p = g->prods[i];
@@ -66,37 +49,39 @@ void checkGrammar(grammar* g) {
 		for (int j = 0; j < p.tot_body; j++) {
 			if (!is_voc(p.body[j]))
 				perr("Body : Not a correct value", 5);
-			}
 
-		if (p.tot_body == 0)
-			perr("Insert at least 1 body element", 4);
-		if (p.tot_body == 1)
-			if (!is_epsilon(p.body[0]) && !is_Term(p.body[0])) // A-># o A->a...z
-				perr("Insert a regular grammar", 7);
-		if (p.tot_body == 2) {
-			if (g->type_g == 0) {
-				if (is_nonTerm(p.body[0]))
-					if (is_Term(p.body[1]))
-						g->type_g = 2;
-					else
-						perr("Insert a regular grammar", 7);
-				if (is_Term(p.body[0]))
-					if (is_nonTerm(p.body[1]))
-						g->type_g = 1;
-					else
-						perr("Insert a regular grammar", 7);
+			if (p.tot_body == 0)
+				perr("Insert at least 1 body element", 4);
+
+			if (p.tot_body == 1)
+				if (!is_epsilon(p.body[0]) && !is_Term(p.body[0])) // A-># o A->a...z
+					perr("Insert a regular grammar", 7);
+
+			if (p.tot_body == 2) {
+				if (g->type_g == 0) {
+					if (is_nonTerm(p.body[0]))
+						if (is_Term(p.body[1]))
+							g->type_g = 2;
+						else
+							perr("Insert a regular grammar", 7);
+					if (is_Term(p.body[0]))
+						if (is_nonTerm(p.body[1]))
+							g->type_g = 1;
+						else
+							perr("Insert a regular grammar", 7);
+					}
+				if (g->type_g == 1) {
+					if (!is_Term(p.body[0]) || !is_nonTerm(p.body[1]))
+						perr("Incorrect full right-regular grammar", 8);
+					}
+				if (g->type_g == 2) {
+					if (!is_nonTerm(p.body[0]) || !is_Term(p.body[1]))
+						perr("Incorrect full left-regular grammar", 8);
+					}
 				}
-			if (g->type_g == 1) {
-				if (!is_Term(p.body[0]) || !is_nonTerm(p.body[1]))
-					perr("Incorrect full right-regular grammar", 8);
-				}
-			if (g->type_g == 2) {
-				if (!is_nonTerm(p.body[0]) || !is_Term(p.body[1]))
-					perr("Incorrect full left-regular grammar", 8);
-				}
+			if (p.tot_body > 2)
+				perr("Too many elements in one body", 9);
 			}
-		if (p.tot_body > 2)
-			perr("Too many elements in one body", 9);
 		}
 	}
 
@@ -108,8 +93,8 @@ void gram_print(grammar* g) {
 		printf("right");
 	if (g->type_g == 2)
 		printf("left");
-	printf("\nStarting symbol: %c\n", g->start_s);
-	printf("Vocabulary: ");
+	printf("\nStarting symbol: %c", g->start_s);
+	printf("\nVocabulary: ");
 	for (int i = 0; i < g->tot_voc; i++) {
 		printf("%c ", g->voc[i]);
 		}

@@ -17,17 +17,8 @@ void fa_init(finiteAutoma* fa) {
 	}
 
 void fa_addGram(finiteAutoma* fa, grammar* g) {
-	if (g->type_g == 2) {
-		fa_addGramSx(fa, g);
-		}
-	else
-		fa_addGramDx(fa, g);
-	}
-void fa_addGramSx(finiteAutoma* fa, grammar* g) {
-	gram_reverse(g);
-	fa_addGramDx(fa, g);
-	}
-void fa_addGramDx(finiteAutoma* fa, grammar* g) {
+	if (g->type_g == 2)
+		gram_reverse(g);
 	fa->start_state = g->start_s;
 	fa_addFinState(fa, '*'); // Add final state
 
