@@ -1,4 +1,2 @@
-S -> a|b|      aA
-A -> a | b
-B -> #
-C -> #
+A -> c | d | a | b|#
+S -> aA | a

@@ -67,7 +67,6 @@ void checkGrammar(grammar* g) {
 		if (p.tot_body == 1)
 			if (!is_epsilon(p.body[0]) && !is_Term(p.body[0])) // A-># o A->a...z
 				perr("Insert a regular grammar", 7);
-
 		if (p.tot_body == 2) {
 			if (g->type_g == 0) {
 				if (is_nonTerm(p.body[0]))
@@ -83,13 +82,15 @@ void checkGrammar(grammar* g) {
 				}
 			if (g->type_g == 1) {
 				if (!is_Term(p.body[0]) || !is_nonTerm(p.body[1]))
-					perr("Incorrect right-regular grammar", 8);
+					perr("Incorrect full right-regular grammar", 8);
 				}
 			if (g->type_g == 2) {
-				if (!is_Term(p.body[0]) || !is_nonTerm(p.body[1]))
-					perr("Incorrect left-regular grammar", 8);
+				if (!is_nonTerm(p.body[0]) || !is_Term(p.body[1]))
+					perr("Incorrect full left-regular grammar", 8);
 				}
 			}
+		if (p.tot_body > 2)
+			perr("Too many elements in one body", 9);
 		}
 	}
 
