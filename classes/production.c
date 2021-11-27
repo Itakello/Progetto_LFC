@@ -18,6 +18,14 @@ void body_add(production* p, const char* c) {
 			}
 		}
 	}
+void prod_reverse(production* p) {
+	if (p->tot_body == 2) {
+		char c = p->body[0];
+		p->body[0] = p->body[1];
+		p->body[1] = p->driver;
+		p->driver = c;
+		}
+	}
 void body_delete(production* p) {
 	p->tot_body = 0;
 	}

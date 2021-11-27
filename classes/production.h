@@ -9,6 +9,7 @@ typedef struct production {
 
 void set_driver(production*, char);
 void body_add(production*, const char*);
+void prod_reverse(production*);
 void prod_print(production*);
 void body_delete(production*);
 

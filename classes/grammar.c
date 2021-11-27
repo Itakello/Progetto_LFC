@@ -28,6 +28,12 @@ void addVocSet(grammar* g, production* p) {
 		addSet(g, p->body[i]);
 		}
 	}
+void gram_reverse(grammar* g) {
+	for (int i = 0; i < g->tot_prods; i++) {
+		prod_reverse(&g->prods[i]);
+		}
+	}
+
 void addVoc(grammar* g, char c) {
 	bool found = false;
 	if (is_Term(c) || c == '#') {

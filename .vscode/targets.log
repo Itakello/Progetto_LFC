@@ -7,12 +7,13 @@ make: *** No rule to make target 'all'.  Stop.
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
- 
 
-# Make data base, printed on Sat Nov 27 11:08:47 2021
+# Make data base, printed on Sat Nov 27 17:01:32 2021
 
 # Variables
 
+# environment
+FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
 # environment
 SYSTEMDRIVE = C:
 # makefile (from 'makefile', line 4)
@@ -24,7 +25,7 @@ USERPROFILE = C:\Users\maxst
 # environment
 LOCALAPPDATA = C:\Users\maxst\AppData\Local
 # environment
-VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-8673dfe2-5d55-45fb-a914-58d8b0d5af06-sock
+VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-c1677b58-ebc5-4b7a-a2b7-96238a8ed172-sock
 # environment
 VSCODE_CWD = C:\Users\maxst\AppData\Local\Programs\Microsoft VS Code
 # environment
@@ -38,7 +39,9 @@ MAKE_COMMAND := make
 # automatic
 @D = $(patsubst %/,%,$(dir $@))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_16984_LAPDSLKANWVZORQB
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_24112_PCBPSYCDGXXOOVCE
+# environment
+FPS_BROWSER_USER_PROFILE_STRING = Default
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # default
@@ -90,7 +93,7 @@ MAKEFILE_LIST := makefile
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 16984
+VSCODE_PID = 24112
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
@@ -218,7 +221,7 @@ CC = gcc
 # environment
 PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 142 Stepping 10, GenuineIntel
 # variable set hash-table stats:
-# Load=102/1024=10%, Rehash=0, Collisions=12/131=9%
+# Load=104/1024=10%, Rehash=0, Collisions=13/133=10%
 
 # Pattern-specific Variable Values
 
@@ -226,9 +229,9 @@ PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 142 Stepping 10, GenuineIntel
 
 # Directories
 
-# . (device 428019990, inode -2328555076339377775): 13 files, no impossibilities.
+# . (device 428019990, inode -2328555076339377775): 14 files, no impossibilities.
 
-# 13 files, no impossibilities in 1 directories.
+# 14 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -288,7 +291,6 @@ main.o:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
- 
 
 # Not a target:
 makefile:
@@ -308,9 +310,9 @@ makefile:
 # strcache buffers: 1 (0) / strings = 29 / storage = 311 B / avg = 10 B
 # current buf: size = 8162 B / used = 311 B / count = 29 / avg = 10 B
 
-# strcache performance: lookups = 34 / hit rate = 14%
+# strcache performance: lookups = 35 / hit rate = 17%
 # hash-table stats:
-# Load=29/8192=0%, Rehash=0, Collisions=0/34=0%
-# Finished Make data base on Sat Nov 27 11:08:47 2021
+# Load=29/8192=0%, Rehash=0, Collisions=0/35=0%
+# Finished Make data base on Sat Nov 27 17:01:32 2021
 
  
