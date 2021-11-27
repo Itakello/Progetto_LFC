@@ -1,4 +1,4 @@
-make.exe --dry-run --always-make --keep-going --print-directory
+make.exe --dry-run --keep-going --print-directory
 make: Entering directory '/g/My Drive/University/Anno 3/LFC/Progetto_LFC'
 gcc -c -o main.o main.c
  
@@ -7,7 +7,8 @@ gcc -c -o classes/production.o classes/production.c
 gcc -c -o classes/grammar.o classes/grammar.c
  
 gcc -c -o classes/utility.o classes/utility.c
-gcc -o main main.o classes/production.o classes/grammar.o classes/utility.o
  
+gcc -c -o classes/finiteAutoma.o classes/finiteAutoma.c
+gcc -o main main.o classes/production.o classes/grammar.o classes/utility.o classes/finiteAutoma.o
 make: Leaving directory '/g/My Drive/University/Anno 3/LFC/Progetto_LFC'
  

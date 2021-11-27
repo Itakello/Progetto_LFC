@@ -9,6 +9,7 @@ void gram_init(grammar* g) {
 	g->tot_voc = 0;
 	g->tot_set = 0;
 	g->start_s = '-';
+	g->type_g = 0;
 	}
 void prod_add(grammar* g, production p) {
 	if (g->tot_prods == PRODS_CAP)
@@ -60,23 +61,47 @@ void checkGrammar(grammar* g) {
 			if (!is_voc(p.body[j]))
 				perr("Body : Not a correct value", 5);
 			}
+
 		if (p.tot_body == 0)
 			perr("Insert at least 1 body element", 4);
 		if (p.tot_body == 1)
 			if (!is_epsilon(p.body[0]) && !is_Term(p.body[0])) // A-># o A->a...z
 				perr("Insert a regular grammar", 7);
+
 		if (p.tot_body == 2) {
-			if (is_nonTerm(p.body[0]) && !is_Term(p.body[1]))
-				perr("Insert a regular grammar", 7);
-			if (is_Term(p.body[0]) && !is_nonTerm(p.body[1]))
-				perr("Insert a regular grammar", 7);
+			if (g->type_g == 0) {
+				if (is_nonTerm(p.body[0]))
+					if (is_Term(p.body[1]))
+						g->type_g = 2;
+					else
+						perr("Insert a regular grammar", 7);
+				if (is_Term(p.body[0]))
+					if (is_nonTerm(p.body[1]))
+						g->type_g = 1;
+					else
+						perr("Insert a regular grammar", 7);
+				}
+			if (g->type_g == 1) {
+				if (!is_Term(p.body[0]) || !is_nonTerm(p.body[1]))
+					perr("Incorrect right-regular grammar", 8);
+				}
+			if (g->type_g == 2) {
+				if (!is_Term(p.body[0]) || !is_nonTerm(p.body[1]))
+					perr("Incorrect left-regular grammar", 8);
+				}
 			}
 		}
-
 	}
+
 void gram_print(grammar* g) {
-	printf("Grammar\n");
-	printf("Starting symbol: %c\n", g->start_s);
+	printf("Grammar type: ");
+	if (g->type_g == 0)
+		printf("undefined");
+	if (g->type_g == 1)
+		printf("right");
+	if (g->type_g == 2)
+		printf("left");
+	printf("\nStarting symbol: %c\n", g->start_s);
 	printf("Vocabulary: ");
 	for (int i = 0; i < g->tot_voc; i++) {
 		printf("%c ", g->voc[i]);

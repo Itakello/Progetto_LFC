@@ -3,10 +3,11 @@
 ## Come fornire l'input
 
 L'input può essere fornito come :
-1. Grammatica libera regolare (da `cin` o da `input.txt`)
-   1. Verrà poi trasformato in DFA tramite `thompson_construction()`
-2. DFA
-3. NFA
+1. Grammatica libera regolare (da `cin` o da `input.txt`) sia right-regular,  sia left-regular
+   1. Verrà poi creato un FA che accetta lo stesso linguaggio generato dalla suddetta grammatica
+2. Un espressione regolare
+3. DFA
+4. NFA
 
 ### Tramite grammatica libera regolare
 
