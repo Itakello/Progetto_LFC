@@ -8,12 +8,10 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Nov 26 20:33:51 2021
+# Make data base, printed on Sat Nov 27 10:23:25 2021
 
 # Variables
 
-# environment
-FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
 # environment
 SYSTEMDRIVE = C:
 # makefile (from 'makefile', line 4)
@@ -25,7 +23,7 @@ USERPROFILE = C:\Users\maxst
 # environment
 LOCALAPPDATA = C:\Users\maxst\AppData\Local
 # environment
-VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-24d77af5-61b9-40a7-9776-b5ea2bf6f983-sock
+VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-8673dfe2-5d55-45fb-a914-58d8b0d5af06-sock
 # environment
 VSCODE_CWD = C:\Users\maxst\AppData\Local\Programs\Microsoft VS Code
 # environment
@@ -39,9 +37,7 @@ MAKE_COMMAND := make
 # automatic
 @D = $(patsubst %/,%,$(dir $@))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_14304_OVHGYTIZMMZYAHFZ
-# environment
-FPS_BROWSER_USER_PROFILE_STRING = Default
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_16984_LAPDSLKANWVZORQB
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # default
@@ -93,7 +89,7 @@ MAKEFILE_LIST := makefile
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 14304
+VSCODE_PID = 16984
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
@@ -221,7 +217,7 @@ CC = gcc
 # environment
 PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 142 Stepping 10, GenuineIntel
 # variable set hash-table stats:
-# Load=104/1024=10%, Rehash=0, Collisions=13/133=10%
+# Load=102/1024=10%, Rehash=0, Collisions=12/131=9%
 
 # Pattern-specific Variable Values
 
@@ -307,6 +303,6 @@ makefile:
 # strcache performance: lookups = 33 / hit rate = 18%
 # hash-table stats:
 # Load=27/8192=0%, Rehash=0, Collisions=0/33=0%
-# Finished Make data base on Fri Nov 26 20:33:51 2021
+# Finished Make data base on Sat Nov 27 10:23:25 2021
 
  

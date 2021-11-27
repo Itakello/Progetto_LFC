@@ -10,11 +10,16 @@ typedef struct grammar {
 	production prods[PRODS_CAP];
 	int tot_prods;
 	char voc[VOC_CAP];
+	int tot_voc;
 	char set_symb[SET_SYM_CAP];
+	int tot_set;
 	}grammar;
 
 void gram_init(grammar*);
 void prod_add(grammar*, production);
+void addVocSet(grammar*, production*);
+void addVoc(grammar*, char);
+void addSet(grammar*, char);
 void checkGrammar(grammar*);
 void gram_print(grammar*);
 

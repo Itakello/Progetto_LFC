@@ -6,6 +6,8 @@
 
 void gram_init(grammar* g) {
 	g->tot_prods = 0;
+	g->tot_voc = 0;
+	g->tot_set = 0;
 	g->start_s = '-';
 	}
 void prod_add(grammar* g, production p) {
@@ -13,9 +15,39 @@ void prod_add(grammar* g, production p) {
 		perror("Too many prods");
 	else {
 		g->prods[g->tot_prods++] = p;
+		addVocSet(g, &p);
 		if (g->tot_prods == 1)
 			g->start_s = g->prods[0].driver; // First is the SS
 		}
+	}
+void addVocSet(grammar* g, production* p) {
+	addSet(g, p->driver);
+	for (int i = 0; i < p->tot_body; i++) {
+		addVoc(g, p->body[i]);
+		addSet(g, p->body[i]);
+		}
+	}
+void addVoc(grammar* g, char c) {
+	bool found = false;
+	if (is_Term(c) || c == '#') {
+		for (int i = 0; i < g->tot_voc; i++) {
+			if (g->voc[i] == c) {
+				found = true;
+				}
+			}
+		if (!found)
+			g->voc[g->tot_voc++] = c;
+		}
+	}
+void addSet(grammar* g, char c) {
+	bool found = false;
+	for (int i = 0; i < g->tot_set; i++) {
+		if (g->set_symb[i] == c) {
+			found = true;
+			}
+		}
+	if (!found)
+		g->set_symb[g->tot_set++] = c;
 	}
 void checkGrammar(grammar* g) {
 	for (int i = 0; i < g->tot_prods; i++) {
@@ -43,8 +75,17 @@ void checkGrammar(grammar* g) {
 
 	}
 void gram_print(grammar* g) {
-	printf("Grammar:\n");
+	printf("Grammar\n");
 	printf("Starting symbol: %c\n", g->start_s);
+	printf("Vocabulary: ");
+	for (int i = 0; i < g->tot_voc; i++) {
+		printf("%c ", g->voc[i]);
+		}
+	printf("\nSet_sym: ");
+	for (int i = 0; i < g->tot_set; i++) {
+		printf("%c ", g->set_symb[i]);
+		}
+	printf("\nProds:\n");
 	for (int i = 0; i < g->tot_prods; i++) {
 		prod_print(&g->prods[i]);
 		}

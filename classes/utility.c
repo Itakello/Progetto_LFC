@@ -10,7 +10,6 @@ void perr(const char* strerr, int err) {
 		exit(err);
 		}
 	}
-
 bool is_voc(const char c) {
 	if ((c >= 'a') && (c <= 'z'))
 		return true;
@@ -20,7 +19,6 @@ bool is_voc(const char c) {
 		return true;
 	return false;
 	}
-
 bool is_nonTerm(const char c) {
 	return ((c >= 'A') && (c <= 'Z'));
 	}
