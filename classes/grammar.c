@@ -31,11 +31,11 @@ void gram_reverse(grammar* g) {
 	}
 
 void addVocSet(grammar* g, const production* p) {
-	addElement(g->set_symb, p->driver, g->tot_set);
+	addElement(g->set_symb, p->driver, &g->tot_set);
 	for (int i = 0; i < p->tot_body; i++) {
 		if (is_Term(p->body[i]) || is_epsilon(p->body[i]))
-			addElement(g->voc, p->body[i], g->tot_voc);
-		addElement(g->set_symb, p->body[i], g->tot_set);
+			addElement(g->voc, p->body[i], &g->tot_voc);
+		addElement(g->set_symb, p->body[i], &g->tot_set);
 		}
 	}
 

@@ -2,7 +2,7 @@
 
 void addElement(char* set, const char el, int* dim) {
 	if (!member(set, el, *dim))
-		set[*dim++] = el;
+		set[(*dim)++] = el;
 	}
 
 bool member(const char* set, const char el, const int dim) {

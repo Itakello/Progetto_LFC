@@ -10,7 +10,7 @@ int main(int argc, char const* argv[]) {
 		getGrammarCin(&g);
 		}
 	checkGrammar(&g);
-	//gram_print(&g);
+	gram_print(&g);
 
 	printf("\n");
 	finiteAutoma fa;

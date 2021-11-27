@@ -3,6 +3,7 @@
 
 #include "finiteAutoma.h"
 #include "utility.h"
+#include "../data_s/set.h"
 
 void fa_init(finiteAutoma* fa) {
 	fa->start_state = '-';
@@ -20,19 +21,18 @@ void fa_addGram(finiteAutoma* fa, grammar* g) {
 	if (g->type_g == 2)
 		gram_reverse(g);
 	fa->start_state = g->start_s;
-	fa_addFinState(fa, '*'); // Add final state
+	addElement(fa->fin_states, '*', &fa->tot_finstates);
 
 	// Add states
 	for (int i = 0; i < g->tot_set; i++) {
 		if (is_nonTerm(g->set_symb[i]))
-			fa_addState(fa, g->set_symb[i]);
+			addElement(fa->states, g->set_symb[i], &fa->tot_states);
 		}
-	fa_addState(fa, '*');
+	addElement(fa->states, '*', &fa->tot_states);
 
 	// Add alpha
 	for (int i = 0; i < g->tot_voc; i++) {
-		//if (is_Term(g->voc[i]))
-		fa_addAlpha(fa, g->voc[i]);
+		addElement(fa->alphabet, g->voc[i], &fa->tot_alpha);
 		}
 
 	// Add Prods
@@ -45,50 +45,16 @@ void fa_addGram(finiteAutoma* fa, grammar* g) {
 	}
 
 void fa_addProd(finiteAutoma* fa, char term, char from_state, char to_state) {
-	//printf("T: %c, From: %c, To: %c ", term, from_state, to_state);
 	for (int i = 0; i < fa->tot_states; i++) {
 		for (int j = 0; j < fa->tot_alpha; j++) {
 			if (term == fa->alphabet[j] && from_state == fa->states[i]) {
-				//printf("OK %d-%d\n", i, j);
-				fa->trans[j][i][fa->tot_trans[j][i]++] = to_state;
+				addElement(fa->trans[j][i], to_state, &fa->tot_trans[j][i]);
 				}
 			}
 		}
 	}
-void fa_addAlpha(finiteAutoma* fa, char c) {
-	bool found = false;
-	for (int i = 0; i < fa->tot_alpha; i++) {
-		if (fa->alphabet[i] == c) {
-			found = true;
-			}
-		}
-	if (!found)
-		fa->alphabet[fa->tot_alpha++] = c;
-	}
-
-void fa_addState(finiteAutoma* fa, char c) {
-	bool found = false;
-	for (int i = 0; i < fa->tot_states; i++) {
-		if (fa->states[i] == c) {
-			found = true;
-			}
-		}
-	if (!found)
-		fa->states[fa->tot_states++] = c;
-	}
-void fa_addFinState(finiteAutoma* fa, char c) {
-	bool found = false;
-	for (int i = 0; i < fa->tot_finstates; i++) {
-		if (fa->fin_states[i] == c) {
-			found = true;
-			}
-		}
-	if (!found)
-		fa->fin_states[fa->tot_finstates++] = c;
-	}
 
 void fa_print(finiteAutoma* fa) {
-	//printf("\nTOT states:%d - TOT alpha:%d\n", fa->tot_states, fa->tot_alpha);
 	printf("States : ");
 	for (int i = 0; i < fa->tot_states; i++) {
 		printf("%c ", fa->states[i]);

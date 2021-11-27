@@ -7,8 +7,9 @@ make: *** No rule to make target 'all'.  Stop.
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
+ 
 
-# Make data base, printed on Sat Nov 27 17:01:32 2021
+# Make data base, printed on Sat Nov 27 22:14:41 2021
 
 # Variables
 
@@ -17,7 +18,7 @@ FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
 # environment
 SYSTEMDRIVE = C:
 # makefile (from 'makefile', line 4)
-OBJ = main.o classes/production.o classes/grammar.o classes/utility.o classes/finiteAutoma.o
+OBJ = main.o classes/production.o classes/grammar.o classes/utility.o classes/finiteAutoma.o data_s/set.o
 # environment
 LC_ALL = C
 # environment
@@ -203,7 +204,7 @@ TERM = xterm-256color
 # automatic
 <F = $(notdir $<)
 # makefile (from 'makefile', line 3)
-DEPS = classes/production.h classes/grammar.h classes/utility.h classes/finiteAutoma.h
+DEPS = classes/production.h classes/grammar.h classes/utility.h classes/finiteAutoma.h data_s/set.h
 # default
 SUFFIXES := 
 # environment
@@ -235,7 +236,7 @@ PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 142 Stepping 10, GenuineIntel
 
 # Implicit Rules
 
-%.o: %.c classes/production.h classes/grammar.h classes/utility.h classes/finiteAutoma.h
+%.o: %.c classes/production.h classes/grammar.h classes/utility.h classes/finiteAutoma.h data_s/set.h
 #  recipe to execute (from 'makefile', line 7):
 	$(CC) -c -o $@ $<
 
@@ -279,7 +280,7 @@ classes/production.o:
 #  Modification time never checked.
 #  File has not been updated.
 
-main: main.o classes/production.o classes/grammar.o classes/utility.o classes/finiteAutoma.o
+main: main.o classes/production.o classes/grammar.o classes/utility.o classes/finiteAutoma.o data_s/set.o
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -295,24 +296,30 @@ main.o:
 # Not a target:
 makefile:
 #  Implicit rule search has been done.
-#  Last modified 2021-11-27 11:08:44.552
+#  Last modified 2021-11-27 22:14:11.196
 #  File has been updated.
 #  Successfully updated.
 
+# Not a target:
+data_s/set.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
 # files hash-table stats:
-# Load=10/1024=1%, Rehash=0, Collisions=1/25=4%
+# Load=11/1024=1%, Rehash=0, Collisions=1/27=4%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 29 / storage = 311 B / avg = 10 B
-# current buf: size = 8162 B / used = 311 B / count = 29 / avg = 10 B
+# strcache buffers: 1 (0) / strings = 31 / storage = 337 B / avg = 10 B
+# current buf: size = 8162 B / used = 337 B / count = 31 / avg = 10 B
 
-# strcache performance: lookups = 35 / hit rate = 17%
+# strcache performance: lookups = 37 / hit rate = 16%
 # hash-table stats:
-# Load=29/8192=0%, Rehash=0, Collisions=0/35=0%
-# Finished Make data base on Sat Nov 27 17:01:32 2021
+# Load=31/8192=0%, Rehash=0, Collisions=0/37=0%
+# Finished Make data base on Sat Nov 27 22:14:41 2021
 
  

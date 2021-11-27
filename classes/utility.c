@@ -10,15 +10,19 @@ void perr(const char* strerr, int err) {
 		exit(err);
 		}
 	}
+
 bool is_voc(const char c) {
 	return (is_nonTerm(c) || is_epsilon(c) || is_Term(c));
 	}
+
 bool is_nonTerm(const char c) {
 	return ((c >= 'A') && (c <= 'Z'));
 	}
+
 bool is_Term(const char c) {
 	return ((c >= 'a') && (c <= 'z'));
 	}
+
 bool is_epsilon(const char c) {
 	return (c == '#');
 	}
