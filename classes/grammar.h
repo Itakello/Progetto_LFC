@@ -13,7 +13,7 @@ typedef struct grammar {
 	int tot_voc;
 	char set_symb[SET_SYM_CAP];
 	int tot_set;
-	int type_g;
+	int type_g; //0 -> Undefined, 1 -> Right-regular, 2 -> Left-regular
 	}grammar;
 
 void gram_init(grammar*);

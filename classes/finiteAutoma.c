@@ -1,83 +1,119 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "finiteAutoma.h"
 #include "utility.h"
 #include "../data_s/set.h"
+
+void tr_init(transition* t, char from, char sym, char to) {
+	t->from_state = from;
+	t->symbol = sym;
+	t->to_state = to;
+	}
+
+transition get_trans_reverse(const transition* t) {
+	transition ret;
+	ret.from_state = t->to_state;
+	ret.to_state = t->from_state;
+	ret.symbol = t->symbol;
+	return ret;
+	}
+
+void tr_print(const transition* t) {
+	printf("%c -(%c)> %c\n", t->from_state, t->symbol, t->to_state);
+	}
 
 void fa_init(finiteAutoma* fa) {
 	fa->start_state = '-';
 	fa->tot_states = 0;
 	fa->tot_alpha = 0;
 	fa->tot_finstates = 0;
-	for (int i = 0; i < STATE_CAP; i++) {
-		for (int j = 0; j < ALPHA_CAP; j++) {
-			fa->tot_trans[i][j] = 0;
-			}
-		}
+	fa->tot_trans = 0;
 	}
 
 void fa_addGram(finiteAutoma* fa, grammar* g) {
 	if (g->type_g == 2)
 		gram_reverse(g);
 	fa->start_state = g->start_s;
-	addElement(fa->fin_states, '*', &fa->tot_finstates);
-
-	// Add states
-	for (int i = 0; i < g->tot_set; i++) {
-		if (is_nonTerm(g->set_symb[i]))
-			addElement(fa->states, g->set_symb[i], &fa->tot_states);
-		}
-	addElement(fa->states, '*', &fa->tot_states);
-
-	// Add alpha
-	for (int i = 0; i < g->tot_voc; i++) {
-		addElement(fa->alphabet, g->voc[i], &fa->tot_alpha);
-		}
 
 	// Add Prods
 	for (int i = 0; i < g->tot_prods; i++) {
+		transition t;
 		if (g->prods[i].tot_body == 1)  // Ex: S -> a
-			fa_addProd(fa, g->prods[i].body[0], g->prods[i].driver, '*'); // a, S, *
+			tr_init(&t, g->prods[i].driver, g->prods[i].body[0], '@'); // S, a, Z
 		else // Ex: S -> aA
-			fa_addProd(fa, g->prods[i].body[0], g->prods[i].driver, g->prods[i].body[1]); // a, S, A
+			tr_init(&t, g->prods[i].driver, g->prods[i].body[0], g->prods[i].body[1]); // S, a, A
+		fa_addProd(fa, t);
 		}
+	// Select final state
+	char c = fa_get_unused_state(fa);
+	addElement(fa->fin_states, c, &fa->tot_finstates);
+	addElement(fa->states, c, &fa->tot_states);
+	// Swap with the @ final state
+	for (int i = 0; i < fa->tot_trans; i++) {
+		if (fa->trans[i].to_state == '@')
+			fa->trans[i].to_state = c;
+		}
+	// Remove the @ final state
+	removeElement(fa->states, '@', &fa->tot_states);
 	}
 
-void fa_addProd(finiteAutoma* fa, char term, char from_state, char to_state) {
-	for (int i = 0; i < fa->tot_states; i++) {
-		for (int j = 0; j < fa->tot_alpha; j++) {
-			if (term == fa->alphabet[j] && from_state == fa->states[i]) {
-				addElement(fa->trans[j][i], to_state, &fa->tot_trans[j][i]);
-				}
-			}
-		}
+void fa_addProd(finiteAutoma* fa, const transition t) {
+	//tr_print(&t);
+	addTrans(fa->trans, t, &fa->tot_trans);
+	addElement(fa->alphabet, t.symbol, &fa->tot_alpha);
+	addElement(fa->states, t.from_state, &fa->tot_states);
+	addElement(fa->states, t.to_state, &fa->tot_states);
 	}
 
-void fa_print(finiteAutoma* fa) {
+
+char fa_get_unused_state(const finiteAutoma* fa) {
+	for (char i = 'Z'; i >= 'A'; i--) {
+		if (!member(fa->states, i, fa->tot_states))
+			return i;
+		}
+	return '-';
+	}
+
+void fa_print(const finiteAutoma* fa) {
 	printf("States : ");
 	for (int i = 0; i < fa->tot_states; i++) {
 		printf("%c ", fa->states[i]);
+		}
+	printf("\nStart state : %c", fa->start_state);
+	printf("\nFin states : ");
+	for (int i = 0; i < fa->tot_finstates; i++) {
+		printf("%c ", fa->fin_states[i]);
 		}
 	printf("\nAlpha : ");
 	for (int i = 0; i < fa->tot_alpha; i++) {
 		printf("%c ", fa->alphabet[i]);
 		}
+	// Print alphabet
 	printf("\n\t");
 	for (int i = 0; i < fa->tot_alpha; i++) {
 		printf("%c\t", fa->alphabet[i]);
 		}
 	printf("\n");
+	// Print table
 	for (int i = 0; i < fa->tot_states; i++) {
-		printf("%c\t", fa->states[i]);
+		for (int j = 0; j < fa->tot_finstates; j++) {
+			if (fa->states[i] == fa->fin_states[j])
+				printf(">");
+			}
+		if (fa->states[i] != fa->start_state)
+			printf("%c\t", fa->states[i]);
+		else
+			printf("%c>\t", fa->states[i]);
 		for (int j = 0; j < fa->tot_alpha; j++) {
 			printf("{");
-			for (int k = 0; k < fa->tot_trans[j][i] - 1; k++) {
-				printf("%c ", fa->trans[j][i][k]);
+			for (int k = 0; k < fa->tot_trans; k++) {
+				if (fa->states[i] == fa->trans[k].from_state && fa->alphabet[j] == fa->trans[k].symbol)
+					printf("%c ", fa->trans[k].to_state);
 				}
-			printf("%c}\t", fa->trans[j][i][fa->tot_trans[j][i] - 1]);
+			printf("}\t");
 			}
 		printf("\n");
 		}
-
 	}

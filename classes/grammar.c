@@ -28,6 +28,7 @@ void gram_reverse(grammar* g) {
 	for (int i = 0; i < g->tot_prods; i++) {
 		prod_reverse(&g->prods[i]);
 		}
+	g->type_g = 1;
 	}
 
 void addVocSet(grammar* g, const production* p) {

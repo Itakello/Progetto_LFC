@@ -13,7 +13,8 @@ L'input può essere fornito come :
 
 Inserire una grammatica a scelta, tale per cui :
 * il non-terminale del primo driver sia lo *stato iniziale*
-* i non-terminali siano una lettera maiuscola ($A...Z$)
+* i non-terminali siano una lettera maiuscola ($A...Y$)
+  * $Z$ viene utilizzata come stato finale
 * i terminali siano una lettera minuscola ($a...z$)
 * il carattere ɛ sia un $\#$
 * il carattere | sia sempre un $|$

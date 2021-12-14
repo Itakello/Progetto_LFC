@@ -7,18 +7,15 @@ make: *** No rule to make target 'all'.  Stop.
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
- 
 
-# Make data base, printed on Sat Nov 27 22:14:41 2021
+# Make data base, printed on Mon Dec 13 14:33:59 2021
 
 # Variables
 
 # environment
-FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
-# environment
 SYSTEMDRIVE = C:
 # makefile (from 'makefile', line 4)
-OBJ = main.o classes/production.o classes/grammar.o classes/utility.o classes/finiteAutoma.o data_s/set.o
+OBJ = main.o classes/production.o classes/grammar.o classes/utility.o classes/finiteAutoma.o data_s/set.o brzozowski.o
 # environment
 LC_ALL = C
 # environment
@@ -26,7 +23,7 @@ USERPROFILE = C:\Users\maxst
 # environment
 LOCALAPPDATA = C:\Users\maxst\AppData\Local
 # environment
-VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-c1677b58-ebc5-4b7a-a2b7-96238a8ed172-sock
+VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-622d7087-069f-45b8-b689-0a9daca13069-sock
 # environment
 VSCODE_CWD = C:\Users\maxst\AppData\Local\Programs\Microsoft VS Code
 # environment
@@ -40,9 +37,7 @@ MAKE_COMMAND := make
 # automatic
 @D = $(patsubst %/,%,$(dir $@))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_24112_PCBPSYCDGXXOOVCE
-# environment
-FPS_BROWSER_USER_PROFILE_STRING = Default
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_21340_MKLOOHKZNDSYZNBD
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # default
@@ -56,7 +51,7 @@ VSCODE_LOG_STACK = false
 # automatic
 %F = $(notdir $%)
 # environment
-VSCODE_CODE_CACHE_PATH = C:\Users\maxst\AppData\Roaming\Code\CachedData\ccbaa2d27e38e5afa3e5c21c1c7bef4657064247
+VSCODE_CODE_CACHE_PATH = C:\Users\maxst\AppData\Roaming\Code\CachedData\7db1a2b88f7557e0a43fec75b6ba7e50b3e9f77e
 # environment
 LANG = C
 # default
@@ -94,7 +89,7 @@ MAKEFILE_LIST := makefile
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 24112
+VSCODE_PID = 21340
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
@@ -196,7 +191,7 @@ ELECTRON_RUN_AS_NODE = 1
 # environment
 TEMP = /c/Users/maxst/AppData/Local/Temp
 # environment
-VSCODE_IPC_HOOK = \\.\pipe\f3cb8ce7f5518b37fe0da13a393b7687-1.62.3-main-sock
+VSCODE_IPC_HOOK = \\.\pipe\f3cb8ce7f5518b37fe0da13a393b7687-1.63.0-main-sock
 # environment
 TERM = xterm-256color
 # default
@@ -204,7 +199,7 @@ TERM = xterm-256color
 # automatic
 <F = $(notdir $<)
 # makefile (from 'makefile', line 3)
-DEPS = classes/production.h classes/grammar.h classes/utility.h classes/finiteAutoma.h data_s/set.h
+DEPS = classes/production.h classes/grammar.h classes/utility.h classes/finiteAutoma.h data_s/set.h brzozowski.h
 # default
 SUFFIXES := 
 # environment
@@ -222,7 +217,7 @@ CC = gcc
 # environment
 PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 142 Stepping 10, GenuineIntel
 # variable set hash-table stats:
-# Load=104/1024=10%, Rehash=0, Collisions=13/133=10%
+# Load=102/1024=10%, Rehash=0, Collisions=12/131=9%
 
 # Pattern-specific Variable Values
 
@@ -230,13 +225,13 @@ PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 142 Stepping 10, GenuineIntel
 
 # Directories
 
-# . (device 428019990, inode -2328555076339377775): 14 files, no impossibilities.
+# . (device 428019990, inode -2328555076339377775): 16 files, no impossibilities.
 
-# 14 files, no impossibilities in 1 directories.
+# 16 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
-%.o: %.c classes/production.h classes/grammar.h classes/utility.h classes/finiteAutoma.h data_s/set.h
+%.o: %.c classes/production.h classes/grammar.h classes/utility.h classes/finiteAutoma.h data_s/set.h brzozowski.h
 #  recipe to execute (from 'makefile', line 7):
 	$(CC) -c -o $@ $<
 
@@ -280,7 +275,7 @@ classes/production.o:
 #  Modification time never checked.
 #  File has not been updated.
 
-main: main.o classes/production.o classes/grammar.o classes/utility.o classes/finiteAutoma.o data_s/set.o
+main: main.o classes/production.o classes/grammar.o classes/utility.o classes/finiteAutoma.o data_s/set.o brzozowski.o
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -296,9 +291,15 @@ main.o:
 # Not a target:
 makefile:
 #  Implicit rule search has been done.
-#  Last modified 2021-11-27 22:14:11.196
+#  Last modified 2021-12-13 12:41:25.615
 #  File has been updated.
 #  Successfully updated.
+
+# Not a target:
+brzozowski.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
 data_s/set.o:
@@ -307,19 +308,19 @@ data_s/set.o:
 #  File has not been updated.
 
 # files hash-table stats:
-# Load=11/1024=1%, Rehash=0, Collisions=1/27=4%
+# Load=12/1024=1%, Rehash=0, Collisions=1/29=3%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 31 / storage = 337 B / avg = 10 B
-# current buf: size = 8162 B / used = 337 B / count = 31 / avg = 10 B
+# strcache buffers: 1 (0) / strings = 33 / storage = 364 B / avg = 11 B
+# current buf: size = 8162 B / used = 364 B / count = 33 / avg = 11 B
 
-# strcache performance: lookups = 37 / hit rate = 16%
+# strcache performance: lookups = 41 / hit rate = 19%
 # hash-table stats:
-# Load=31/8192=0%, Rehash=0, Collisions=0/37=0%
-# Finished Make data base on Sat Nov 27 22:14:41 2021
+# Load=33/8192=0%, Rehash=0, Collisions=0/41=0%
+# Finished Make data base on Mon Dec 13 14:33:59 2021
 
  
