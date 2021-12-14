@@ -26,14 +26,14 @@ NOTE 2 : It doesn't utilize determinism
 #include "brzozowski.h"
 #include "data_s\set.h"
 
-void dfs(const finiteAutoma* fa, bool* visited, char c, int u) {
+void dfs(const finiteAutoma* fa, bool* visited, int u) {
 	if (visited[u])
 		return;
 	else {
 		visited[u] = true;
 		for (int i = 0; i < fa->tot_trans; i++) {
-			if (fa->trans[i].from_state == c) {
-				dfs(fa, visited, i, fa->trans[i].to_state);
+			if (fa->trans[i].from_state == fa->trans[u].to_state) {
+				dfs(fa, visited, i);
 				}
 			}
 		}
@@ -63,21 +63,19 @@ finiteAutoma rev(const finiteAutoma* fa) {
 		fa_addProd(&fRet, get_trans_reverse(&fa->trans[i]));
 		}
 	// 4 - DFS, find states that doesn't start from the starting state
-	/* bool* visited;
+	bool* visited;
 	visited = (bool*)calloc(fa->tot_trans, sizeof(bool));
 	if (visited == NULL) {
 		perr("Errer! Memory not allocated", 10);
 		}
-	int startPos = -1;
 	for (int i = 0; i < fRet.tot_states; i++) {
 		if (fRet.states[i] == fRet.start_state)
-			startPos = i;
+			dfs(&fRet, visited, i);
 		}
 
-	dfs(&fRet, visited, fRet.start_state, startPos);
-
 	// Rimuovi transizioni non visitate
-	for (int i = 0; i < fRet.tot_trans; i++) {
+	int rem = fRet.tot_trans;
+	for (int i = 0; i < rem; i++) {
 		if (!visited[i])
 			removeTrans(fRet.trans, fRet.trans[i], &fRet.tot_trans);
 		}
@@ -93,7 +91,7 @@ finiteAutoma rev(const finiteAutoma* fa) {
 		}
 
 
-	free(visited); */
+	free(visited);
 
 	return fRet;
 	}
