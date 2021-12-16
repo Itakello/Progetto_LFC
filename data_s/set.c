@@ -1,11 +1,14 @@
 #include "set.h"
 
-void addElement(char* set, const char el, int* dim) {
-	if (!member(set, el, *dim))
+bool addElement(char* set, const char el, int* dim) {
+	if (!member(set, el, *dim)) {
 		set[(*dim)++] = el;
+		return true;
+		}
+	return false;
 	}
 
-void removeElement(char* set, const char el, int* dim) {
+bool removeElement(char* set, const char el, int* dim) {
 	bool ok = false;
 	for (int i = 0; i < *dim; i++) {
 		if (set[i] == el)
@@ -14,6 +17,7 @@ void removeElement(char* set, const char el, int* dim) {
 			set[i] = set[i + 1];
 		}
 	--(*dim);
+	return ok;
 	}
 
 bool member(const char* set, const char el, const int dim) {
@@ -24,12 +28,15 @@ bool member(const char* set, const char el, const int dim) {
 	return false;
 	}
 
-void addTrans(transition* set, const transition t, int* dim) {
-	if (!memberTrans(set, t, *dim))
+bool addTrans(transition* set, const transition t, int* dim) {
+	if (!memberTrans(set, t, *dim)) {
 		set[(*dim)++] = t;
+		return true;
+		}
+	return false;
 	}
 
-void removeTrans(transition* set, const transition tc, int* dim) {
+bool removeTrans(transition* set, const transition tc, int* dim) {
 	bool ok = false;
 	for (int i = 0; i < *dim; i++) {
 		if (set[i].to_state == tc.to_state && set[i].from_state == tc.from_state && set[i].symbol == tc.symbol)
@@ -38,6 +45,7 @@ void removeTrans(transition* set, const transition tc, int* dim) {
 			set[i] = set[i + 1];
 		}
 	--(*dim);
+	return ok;
 	}
 
 bool memberTrans(const transition* set, const transition t, const int dim) {

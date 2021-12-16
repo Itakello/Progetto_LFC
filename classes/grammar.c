@@ -87,6 +87,7 @@ void checkGrammar(grammar* g) {
 	}
 
 void gram_print(grammar* g) {
+	printf("\n\t\tGrammar\n");
 	printf("Grammar type: ");
 	if (g->type_g == 0)
 		printf("undefined");

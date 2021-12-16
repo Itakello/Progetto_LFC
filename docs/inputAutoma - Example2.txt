@@ -1,0 +1,11 @@
+A -#> B
+A -#> E
+B -#> C
+B -b> E
+C -a> D
+D -b> B
+D -#> E
+E -a> E
+E -b> A
+-
+E

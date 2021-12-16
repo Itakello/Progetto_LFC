@@ -27,57 +27,74 @@ NOTE 2 : It doesn't utilize determinism
 #include "data_s\set.h"
 
 void dfs(const finiteAutoma* fa, bool* visited, int u) {
+	//printf("%d\n", u);
 	if (visited[u])
 		return;
 	else {
 		visited[u] = true;
 		for (int i = 0; i < fa->tot_trans; i++) {
-			if (fa->trans[i].from_state == fa->trans[u].to_state) {
-				dfs(fa, visited, i);
+			if (fa->trans[i].from_state == fa->states[u]) {
+				for (int j = 0; j < fa->tot_states; j++) {
+					if (fa->trans[i].to_state == fa->states[j]) {
+						/* printf("To %d: %c", u, fa->states[j]);
+						printf(" From %d: %c\n", u, fa->states[u]);
+						tr_print(&fa->trans[i]); */
+						dfs(fa, visited, j);
+						break;
+						}
+					}
+
+
+
 				}
 			}
 		}
 	}
 /*
-* Make initial state as final state
-* Create a fake initial state and connect all fake initial state with an ɛ-transition
-* Reverse the edges
-* Remove the inappropriate transition state.
 Input : DFA o NFA
 Output : NFA reversed
 */
 finiteAutoma rev(const finiteAutoma* fa) {
 	finiteAutoma fRet;
 	fa_init(&fRet);
-	// 1
+	// 1 Make initial state as final state
 	addElement(fRet.fin_states, fa->start_state, &fRet.tot_finstates);
-	// 2
-	fRet.start_state = fa_get_unused_state(fa);
+	// 2 Create a fake initial state and connect all fake initial state with an ɛ-transition
+	fRet.start_state = fa_get_unused_stateZ(fa);
 	for (int i = 0; i < fa->tot_finstates; i++) {
 		transition t;
 		tr_init(&t, fRet.start_state, '#', fa->fin_states[i]);
 		fa_addProd(&fRet, t);
 		}
-	// 3
+	// 3 Reverse the edges
 	for (int i = 0; i < fa->tot_trans; i++) {
 		fa_addProd(&fRet, get_trans_reverse(&fa->trans[i]));
 		}
+	// fa_print(&fRet);
+
 	// 4 - DFS, find states that doesn't start from the starting state
-	bool* visited;
-	visited = (bool*)calloc(fa->tot_trans, sizeof(bool));
-	if (visited == NULL) {
-		perr("Errer! Memory not allocated", 10);
-		}
+	bool visited[STATE_CAP];
+	memset(visited, false, STATE_CAP);
 	for (int i = 0; i < fRet.tot_states; i++) {
-		if (fRet.states[i] == fRet.start_state)
+		if (fRet.states[i] == fRet.start_state) {
 			dfs(&fRet, visited, i);
+			}
 		}
+	/* for (int i = 0; i < STATE_CAP; i++) {
+		printf("%d ", visited[i]);
+		}
+	printf("\n"); */
 
 	// Rimuovi transizioni non visitate
-	int rem = fRet.tot_trans;
-	for (int i = 0; i < rem; i++) {
-		if (!visited[i])
-			removeTrans(fRet.trans, fRet.trans[i], &fRet.tot_trans);
+	for (int i = 0; i < fRet.tot_trans; i++) {
+		for (int j = 0; j < fRet.tot_states; j++) {
+			if (fRet.trans[i].from_state == fRet.states[j] || fRet.trans[i].to_state == fRet.states[j]) {
+				if (!visited[j]) {
+					removeTrans(fRet.trans, fRet.trans[i], &fRet.tot_trans);
+					i--;
+					}
+				}
+			}
 		}
 	// Rimuovi stati inutilizzati
 	for (int i = 0; i < fRet.tot_states; i++) {
@@ -89,17 +106,198 @@ finiteAutoma rev(const finiteAutoma* fa) {
 		if (!ok)
 			removeElement(fRet.states, fRet.states[i], &fRet.tot_states);
 		}
-
-
-	free(visited);
+	// Rimuovi alpha inutilizzati
+	for (int j = 0; j < fRet.tot_alpha; j++) {
+		bool ok = false;
+		for (int i = 0; i < fRet.tot_trans; i++) {
+			if (fRet.trans[i].symbol == fRet.alphabet[j])
+				ok = true;
+			}
+		if (!ok)
+			removeElement(fRet.alphabet, fRet.alphabet[j], &fRet.tot_alpha);
+		}
 
 	return fRet;
 	}
 
+// TODO : Quando viene inserito nel DFA è un singolo stato
 finiteAutoma det(const finiteAutoma* fa) {
+	// Creazione fa
+	finiteAutoma fRet;
+	fa_init(&fRet);
 
+	// Array per i nomi del DFA
+	char names[TRANSITION_CAP];
+	int tot_names = 0;
+
+	// 1 stato DFA -> n stati NFA
+	char R[TRANSITION_CAP][STATE_CAP];
+	int tot_R[TRANSITION_CAP];
+	memset(tot_R, 0, sizeof(int) * TRANSITION_CAP);
+
+	// eps_chiusura per T0
+	eps_chiusura(R[0], &tot_R[0], fa->start_state, fa);
+	sort(R[0], tot_R[0]);
+	names[tot_names++] = fa_get_unused_stateA(&fRet);
+	addElement(fRet.states, names[0], &fRet.tot_states);
+	fRet.start_state = names[0];
+
+	// Print di T0
+	printf("%c : ", names[0]);
+	for (int i = 0; i < tot_R[0]; i++) {
+		printf("%c ", R[0][i]);
+		}
+	printf("\n");
+
+	// Unmark T0
+	bool marked[TRANSITION_CAP];
+	memset(marked, true, sizeof(bool) * TRANSITION_CAP);
+	marked[0] = false;
+	int curr = 0;
+	while (curr != -1) { // -1 means no more to mark
+		marked[curr] = true;
+		printf("Curr : %d\n", curr);
+		for (int i = 0; i < fa->tot_alpha; i++) {
+			char a = fa->alphabet[i];
+			if (a != '#') {
+
+				// Creo set : tutti gli stati raggiungibili tramite una a-transizione da uno degli stati in t
+				char tempSet[STATE_CAP];
+				int tot_tempSet = 0;
+				for (int j = 0; j < fa->tot_trans; j++) {
+					for (int k = 0; k < tot_R[curr]; k++) {
+						if (fa->trans[j].symbol == a && fa->trans[j].from_state == R[curr][k]) {
+							addElement(tempSet, fa->trans[j].to_state, &tot_tempSet);
+							}
+						}
+					}
+				// Print di tempSet
+				/* printf("Print di tempSet %c (%c) : ", names[curr], a);
+				for (int j = 0; j < tot_tempSet; j++) {
+					printf("%c ", tempSet[j]);
+					}
+				printf("\n"); */
+				//se ne calcola la ε-chiusura e la si salva nella variabile T1
+				if (tot_tempSet > 0) {
+					char T1[STATE_CAP];
+					int tot_T1 = 0;
+					for (int j = 0; j < tot_tempSet; j++) {
+						eps_chiusura(T1, &tot_T1, tempSet[j], fa);
+						}
+					sort(T1, tot_T1);
+
+					// Print di T1
+					printf("Print di T1 %c (%c) : ", names[curr], a);
+					for (int j = 0; j < tot_T1; j++) {
+						printf("%c ", T1[j]);
+						}
+					printf("\n");
+
+					names[tot_names++] = fa_get_unused_stateA(&fRet);
+					transition t;
+					tr_init(&t, names[curr], a, names[tot_names - 1]);
+					fa_addProd(&fRet, t);
+
+					bool add = true;
+					for (int j = 0; j < TRANSITION_CAP; j++) {
+						if (strcmp(R[j], T1) == 0)
+							add = false;
+						}
+					if (add) {
+						for (int j = 0; j < TRANSITION_CAP; j++) {
+							if (tot_R[j] == 0) {
+								strcpy(R[j], T1);
+								marked[j] = false;
+								break;
+								}
+							}
+						}
+					}
+				}
+			}
+
+
+		// Select new curr, else -1
+		curr = -1;
+		for (int i = 0; i < TRANSITION_CAP; i++) {
+			if (!marked[i]) {
+				marked[i] = false;
+				curr = i;
+				break;
+				}
+			}
+		}
+
+	/* while (exist_unmarked) {
+		// For dell'alfabeto
+		for (int i = 0; i < fa->tot_alpha; i++) {
+			char a = fa->alphabet[i];
+			// Epsilon chiusura di t'
+			char T1[STATE_CAP];
+			int tot_T1 = 0;
+			// Creo set : tutti gli stati raggiungibili tramite una a-transizione da uno degli stati in t
+			char tempSet[STATE_CAP];
+			int tot_tempSet = 0;
+			for (int j = 0; j < fa->tot_trans; j++) {
+				if (fa->trans->from_state == t && fa->trans->symbol == a)
+					addElement(tempSet, fa->trans->to_state, &tot_tempSet);
+				}
+
+			//se ne calcola la ε-chiusura e la si salva nella variabile T1
+			eps_chiusura(T1, &tot_T1, fa->start_state, fa);
+			// Si inseriscono le nuove transizioni : t -(a)> T1
+			for (int j = 0; j < tot_T1; j++) {
+				transition tr;
+				tr_init(&tr, t, a, T1[j]);
+				fa_addProd(&fRet, tr);
+				}
+			// Inserisco in R tutti gli elementi di T1 non ancora inseriti
+			for (int j = 0; j < tot_T1; j++) {
+				if (member(R, T1[j], &tot_R)) {
+
+					// E li segno come unmarked
+					}
+				}
+			}
+		// Selezione di t nel while
+		for (int i = 0; i < fa->tot_states; i++) {
+			for (int j = 0; j < tot_R; j++) {
+				if (fa->states[i] == R[j] && unmarked[j]) {
+					if (!exist_unmarked) {
+						exist_unmarked = true;
+						t = R[j];
+						unmarked[j] = false;
+						}
+					}
+				}
+			}
+		}
+
+	free(unmarked); */
+	return fRet;
 	}
 
 finiteAutoma brzozowki(const finiteAutoma* fa) {
-
+	finiteAutoma fRet;
+	return fRet;
+	}
+/*
+* stack
+* array booleano alreadyOn -> segnare se uno stato t è già sulla pila o meno
+* array bidimensionale per ricordare move_n
+TODO : Sostituire con stack
+*/
+void eps_chiusura(char* set, int* dim, const char start, const finiteAutoma* fa) {
+	bool found = addElement(set, start, dim);
+	while (found) {
+		found = false;
+		for (int i = 0; i < *dim; i++) {
+			for (int j = 0; j < fa->tot_trans; j++) {
+				if (fa->trans[j].from_state == set[i] && fa->trans[j].symbol == '#') {
+					if (addElement(set, fa->trans[j].to_state, dim))
+						found = true;
+					}
+				}
+			}
+		}
 	}

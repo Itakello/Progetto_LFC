@@ -1,3 +1,0 @@
-S -> a A b
-a A -> a a A b
-A -> #

@@ -1,5 +1,12 @@
-make.exe --dry-run --keep-going --print-directory
+make.exe --dry-run --always-make --keep-going --print-directory
 make: Entering directory '/g/My Drive/University/Anno 3/LFC/Progetto_LFC'
-make: 'main' is up to date.
+gcc -c -o main.o main.c
+gcc -c -o classes/production.o classes/production.c
+gcc -c -o classes/grammar.o classes/grammar.c
+gcc -c -o classes/utility.o classes/utility.c
+gcc -c -o classes/finiteAutoma.o classes/finiteAutoma.c
+gcc -c -o data_s/set.o data_s/set.c
+gcc -c -o brzozowski.o brzozowski.c
+gcc -o main main.o classes/production.o classes/grammar.o classes/utility.o classes/finiteAutoma.o data_s/set.o brzozowski.o
 make: Leaving directory '/g/My Drive/University/Anno 3/LFC/Progetto_LFC'
  

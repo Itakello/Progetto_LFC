@@ -33,6 +33,7 @@ void fa_addGram(finiteAutoma*, grammar*);
 void fa_addProd(finiteAutoma*, const transition t);
 void fa_print(const finiteAutoma*);
 void fa_copy_base(const finiteAutoma* from, finiteAutoma* to);
-char fa_get_unused_state(const finiteAutoma*);
+char fa_get_unused_stateA(const finiteAutoma*);
+char fa_get_unused_stateZ(const finiteAutoma*);
 
 #endif

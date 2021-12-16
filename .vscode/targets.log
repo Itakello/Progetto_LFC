@@ -8,10 +8,12 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon Dec 13 14:33:59 2021
+# Make data base, printed on Thu Dec 16 23:07:26 2021
 
 # Variables
 
+# environment
+FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
 # environment
 SYSTEMDRIVE = C:
 # makefile (from 'makefile', line 4)
@@ -23,7 +25,7 @@ USERPROFILE = C:\Users\maxst
 # environment
 LOCALAPPDATA = C:\Users\maxst\AppData\Local
 # environment
-VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-622d7087-069f-45b8-b689-0a9daca13069-sock
+VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-c0b86efd-e6b4-428e-9650-5b8df7b5a7bc-sock
 # environment
 VSCODE_CWD = C:\Users\maxst\AppData\Local\Programs\Microsoft VS Code
 # environment
@@ -37,7 +39,9 @@ MAKE_COMMAND := make
 # automatic
 @D = $(patsubst %/,%,$(dir $@))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_21340_MKLOOHKZNDSYZNBD
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_11988_KJNROHRTXJPZHNKR
+# environment
+FPS_BROWSER_USER_PROFILE_STRING = Default
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # default
@@ -51,7 +55,7 @@ VSCODE_LOG_STACK = false
 # automatic
 %F = $(notdir $%)
 # environment
-VSCODE_CODE_CACHE_PATH = C:\Users\maxst\AppData\Roaming\Code\CachedData\7db1a2b88f7557e0a43fec75b6ba7e50b3e9f77e
+VSCODE_CODE_CACHE_PATH = C:\Users\maxst\AppData\Roaming\Code\CachedData\899d46d82c4c95423fb7e10e68eba52050e30ba3
 # environment
 LANG = C
 # default
@@ -89,7 +93,7 @@ MAKEFILE_LIST := makefile
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 21340
+VSCODE_PID = 11988
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
@@ -191,7 +195,7 @@ ELECTRON_RUN_AS_NODE = 1
 # environment
 TEMP = /c/Users/maxst/AppData/Local/Temp
 # environment
-VSCODE_IPC_HOOK = \\.\pipe\f3cb8ce7f5518b37fe0da13a393b7687-1.63.0-main-sock
+VSCODE_IPC_HOOK = \\.\pipe\f3cb8ce7f5518b37fe0da13a393b7687-1.63.2-main-sock
 # environment
 TERM = xterm-256color
 # default
@@ -217,7 +221,7 @@ CC = gcc
 # environment
 PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 142 Stepping 10, GenuineIntel
 # variable set hash-table stats:
-# Load=102/1024=10%, Rehash=0, Collisions=12/131=9%
+# Load=104/1024=10%, Rehash=0, Collisions=13/133=10%
 
 # Pattern-specific Variable Values
 
@@ -233,7 +237,7 @@ PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 142 Stepping 10, GenuineIntel
 
 %.o: %.c classes/production.h classes/grammar.h classes/utility.h classes/finiteAutoma.h data_s/set.h brzozowski.h
 #  recipe to execute (from 'makefile', line 7):
-	$(CC) -c -o $@ $<
+	@ $(CC) -c -o $@ $<
 
 # 1 implicit rules, 0 (0.0%) terminal.
 # Files
@@ -291,7 +295,7 @@ main.o:
 # Not a target:
 makefile:
 #  Implicit rule search has been done.
-#  Last modified 2021-12-13 12:41:25.615
+#  Last modified 2021-12-13 21:18:05.627
 #  File has been updated.
 #  Successfully updated.
 
@@ -315,12 +319,12 @@ data_s/set.o:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 33 / storage = 364 B / avg = 11 B
-# current buf: size = 8162 B / used = 364 B / count = 33 / avg = 11 B
+# strcache buffers: 1 (0) / strings = 33 / storage = 370 B / avg = 11 B
+# current buf: size = 8162 B / used = 370 B / count = 33 / avg = 11 B
 
 # strcache performance: lookups = 41 / hit rate = 19%
 # hash-table stats:
 # Load=33/8192=0%, Rehash=0, Collisions=0/41=0%
-# Finished Make data base on Mon Dec 13 14:33:59 2021
+# Finished Make data base on Thu Dec 16 23:07:26 2021
 
  

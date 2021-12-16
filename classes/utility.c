@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "utility.h"
+#include "..\data_s\set.h"
 
 
 void perr(const char* strerr, int err) {
@@ -23,11 +24,28 @@ bool is_Term(const char c) {
 	return ((c >= 'a') && (c <= 'z'));
 	}
 
+void swap(char* a, char* b) {
+	char temp = *a;
+	*a = *b;
+	*b = temp;
+	}
+
+
+void sort(char* word, const int dim) {
+	for (int i = 0; i < dim - 1; i++) {
+		for (int j = i + 1; j < dim; j++) {
+			if (word[i] > word[j]) {
+				swap(&word[i], &word[j]);
+				}
+			}
+		}
+	}
+
 bool is_epsilon(const char c) {
 	return (c == '#');
 	}
 
-void parseLine(char* line, grammar* g) {
+void parseLineG(char* line, grammar* g) {
 	if (line[strlen(line) - 1] == '\n')
 		line[strlen(line) - 1] = '\0';
 	char driver = line[0];
@@ -62,7 +80,7 @@ bool getGrammarFile(grammar* g, const char* input) {
 
 	// Read file
 	while (fgets(line, sizeof(line), file)) {
-		parseLine(line, g);
+		parseLineG(line, g);
 		}
 	fclose(file);
 	return true;
@@ -74,9 +92,59 @@ bool getGrammarCin(grammar* g) {
 	size_t len = 0;
 	ssize_t read;
 	while ((read = getline(&line, &len, stdin)) != 1) {
-		parseLine(line, g);
+		parseLineG(line, g);
 		}
 	return true;
+	}
+
+void parseLineFA(char* line, finiteAutoma* fa) {
+	if (line[strlen(line) - 1] == '\n')
+		line[strlen(line) - 1] = '\0';
+	char from = line[0];
+	if (fa->start_state == '-')
+		fa->start_state = from;
+	char* del1 = strstr(line, "-");
+	char* del2 = strstr(line, ">");
+	if (del1 == NULL || del2 == NULL)
+		perr("No (-) OR (>) sign", 1);
+	int pos1 = del1 - line;
+	char sym = line[pos1 + 1];
+	char to[LENGTH_LINE];
+	int pos = del2 - line;
+	strncpy(to, line + pos + 2, LENGTH_LINE);
+	char* pch = strtok(to, "|");
+	while (pch != NULL) { // Insertion
+		transition t;
+		tr_init(&t, from, sym, pch[0]);
+		fa_addProd(fa, t);
+		pch = strtok(NULL, "|");
+		}
+	}
+
+bool getAutomaFile(finiteAutoma* fa, const char* input) {
+	FILE* file = fopen(input, "r");
+	if (!file) { // File not existing
+		printf("File %s not found\n", input);
+		return false;
+		}
+	fa_init(fa);
+	char line[LENGTH_LINE];
+	while (fgets((line), sizeof(line), file)[0] != '-') {
+		parseLineFA(line, fa);
+		}
+	fgets((line), sizeof(line), file);
+	if (line[strlen(line) - 1] == '\n')
+		line[strlen(line) - 1] = '\0';
+	char* pch = strtok(line, " ");
+	while (pch != NULL) { // Insertion
+		addElement(fa->fin_states, pch[0], &fa->tot_finstates);
+		pch = strtok(NULL, " ");
+		}
+	return true;
+	}
+
+bool getAutomaCin(finiteAutoma* fa) {
+
 	}
 
 size_t getline(char** lineptr, size_t* n, FILE* stream) {

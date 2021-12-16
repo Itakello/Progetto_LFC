@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "finiteAutoma.h"
 #include "utility.h"
+#include "finiteAutoma.h"
 #include "../data_s/set.h"
 
 void tr_init(transition* t, char from, char sym, char to) {
@@ -47,7 +47,7 @@ void fa_addGram(finiteAutoma* fa, grammar* g) {
 		fa_addProd(fa, t);
 		}
 	// Select final state
-	char c = fa_get_unused_state(fa);
+	char c = fa_get_unused_stateZ(fa);
 	addElement(fa->fin_states, c, &fa->tot_finstates);
 	addElement(fa->states, c, &fa->tot_states);
 	// Swap with the @ final state
@@ -65,10 +65,18 @@ void fa_addProd(finiteAutoma* fa, const transition t) {
 	addElement(fa->alphabet, t.symbol, &fa->tot_alpha);
 	addElement(fa->states, t.from_state, &fa->tot_states);
 	addElement(fa->states, t.to_state, &fa->tot_states);
+	sort(fa->states, fa->tot_states);
 	}
 
+char fa_get_unused_stateA(const finiteAutoma* fa) {
+	for (char i = 'A'; i <= 'Z'; i++) {
+		if (!member(fa->states, i, fa->tot_states))
+			return i;
+		}
+	return '-';
+	}
 
-char fa_get_unused_state(const finiteAutoma* fa) {
+char fa_get_unused_stateZ(const finiteAutoma* fa) {
 	for (char i = 'Z'; i >= 'A'; i--) {
 		if (!member(fa->states, i, fa->tot_states))
 			return i;
@@ -77,6 +85,7 @@ char fa_get_unused_state(const finiteAutoma* fa) {
 	}
 
 void fa_print(const finiteAutoma* fa) {
+	printf("\n\t\tFinite Automa\n");
 	printf("States : ");
 	for (int i = 0; i < fa->tot_states; i++) {
 		printf("%c ", fa->states[i]);
@@ -91,9 +100,9 @@ void fa_print(const finiteAutoma* fa) {
 		printf("%c ", fa->alphabet[i]);
 		}
 	// Print alphabet
-	printf("\n\t");
+	printf("\n\t\t");
 	for (int i = 0; i < fa->tot_alpha; i++) {
-		printf("%c\t", fa->alphabet[i]);
+		printf("%c\t\t", fa->alphabet[i]);
 		}
 	printf("\n");
 	// Print table
@@ -103,16 +112,24 @@ void fa_print(const finiteAutoma* fa) {
 				printf(">");
 			}
 		if (fa->states[i] != fa->start_state)
-			printf("%c\t", fa->states[i]);
+			printf("%c\t\t", fa->states[i]);
 		else
-			printf("%c>\t", fa->states[i]);
+			printf("%c>\t\t", fa->states[i]);
 		for (int j = 0; j < fa->tot_alpha; j++) {
 			printf("{");
+			int count = 0;
 			for (int k = 0; k < fa->tot_trans; k++) {
-				if (fa->states[i] == fa->trans[k].from_state && fa->alphabet[j] == fa->trans[k].symbol)
+				if (fa->states[i] == fa->trans[k].from_state && fa->alphabet[j] == fa->trans[k].symbol) {
 					printf("%c ", fa->trans[k].to_state);
+					count++;
+					}
 				}
-			printf("}\t");
+			if (count > 0)
+				printf("\b");
+			if (count >= 4)
+				printf("}\t");
+			else
+				printf("}\t\t");
 			}
 		printf("\n");
 		}
