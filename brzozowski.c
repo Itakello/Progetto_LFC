@@ -143,40 +143,47 @@ finiteAutoma det(const finiteAutoma* fa) {
 	fRet.start_state = names[0];
 
 	// Print di T0
-	printf("%c : ", names[0]);
+	/* printf("T0 %c : ", names[0]);
 	for (int i = 0; i < tot_R[0]; i++) {
 		printf("%c ", R[0][i]);
 		}
-	printf("\n");
+	printf("\n"); */
 
 	// Unmark T0
 	bool marked[TRANSITION_CAP];
 	memset(marked, true, sizeof(bool) * TRANSITION_CAP);
 	marked[0] = false;
 	int curr = 0;
+
 	while (curr != -1) { // -1 means no more to mark
 		marked[curr] = true;
-		printf("Curr : %d\n", curr);
+		printf("Curr : %d -> ", curr);
+		for (int i = 0; i < tot_R[curr]; i++) {
+			printf("%c ", R[curr][i]);
+			}
+		printf("\n");
+
 		for (int i = 0; i < fa->tot_alpha; i++) {
 			char a = fa->alphabet[i];
-			if (a != '#') {
+			if (!is_epsilon(a)) {
 
 				// Creo set : tutti gli stati raggiungibili tramite una a-transizione da uno degli stati in t
 				char tempSet[STATE_CAP];
 				int tot_tempSet = 0;
 				for (int j = 0; j < fa->tot_trans; j++) {
 					for (int k = 0; k < tot_R[curr]; k++) {
-						if (fa->trans[j].symbol == a && fa->trans[j].from_state == R[curr][k]) {
+						if (fa->trans[j].from_state == R[curr][k] && fa->trans[j].symbol == a) {
+
 							addElement(tempSet, fa->trans[j].to_state, &tot_tempSet);
 							}
 						}
 					}
 				// Print di tempSet
-				/* printf("Print di tempSet %c (%c) : ", names[curr], a);
+				printf("Print di tempSet %c (%c) : ", names[curr], a);
 				for (int j = 0; j < tot_tempSet; j++) {
 					printf("%c ", tempSet[j]);
 					}
-				printf("\n"); */
+				printf("\n");
 				//se ne calcola la ε-chiusura e la si salva nella variabile T1
 				if (tot_tempSet > 0) {
 					char T1[STATE_CAP];
@@ -186,18 +193,29 @@ finiteAutoma det(const finiteAutoma* fa) {
 						}
 					sort(T1, tot_T1);
 
-					// Print di T1
+					// Print di T'
 					printf("Print di T1 %c (%c) : ", names[curr], a);
 					for (int j = 0; j < tot_T1; j++) {
 						printf("%c ", T1[j]);
 						}
 					printf("\n");
 
-					names[tot_names++] = fa_get_unused_stateA(&fRet);
+					// Connect to old or new production
 					transition t;
-					tr_init(&t, names[curr], a, names[tot_names - 1]);
+					bool found = false;
+					for (int j = 0; j < TRANSITION_CAP; j++) {
+						if (strcmp(T1, R[j]) == 0) {
+							found = true;
+							tr_init(&t, names[curr], a, names[j]);
+							}
+						}
+					if (!found) {
+						names[tot_names++] = fa_get_unused_stateA(&fRet);
+						tr_init(&t, names[curr], a, names[tot_names - 1]);
+						}
 					fa_addProd(&fRet, t);
 
+					// add T' to R if T' ∉ R
 					bool add = true;
 					for (int j = 0; j < TRANSITION_CAP; j++) {
 						if (strcmp(R[j], T1) == 0)
@@ -206,7 +224,9 @@ finiteAutoma det(const finiteAutoma* fa) {
 					if (add) {
 						for (int j = 0; j < TRANSITION_CAP; j++) {
 							if (tot_R[j] == 0) {
+								printf("Adding in pos %d\n", j);
 								strcpy(R[j], T1);
+								tot_R[j] = strlen(R[j]);
 								marked[j] = false;
 								break;
 								}
@@ -227,53 +247,14 @@ finiteAutoma det(const finiteAutoma* fa) {
 				}
 			}
 		}
-
-	/* while (exist_unmarked) {
-		// For dell'alfabeto
-		for (int i = 0; i < fa->tot_alpha; i++) {
-			char a = fa->alphabet[i];
-			// Epsilon chiusura di t'
-			char T1[STATE_CAP];
-			int tot_T1 = 0;
-			// Creo set : tutti gli stati raggiungibili tramite una a-transizione da uno degli stati in t
-			char tempSet[STATE_CAP];
-			int tot_tempSet = 0;
-			for (int j = 0; j < fa->tot_trans; j++) {
-				if (fa->trans->from_state == t && fa->trans->symbol == a)
-					addElement(tempSet, fa->trans->to_state, &tot_tempSet);
-				}
-
-			//se ne calcola la ε-chiusura e la si salva nella variabile T1
-			eps_chiusura(T1, &tot_T1, fa->start_state, fa);
-			// Si inseriscono le nuove transizioni : t -(a)> T1
-			for (int j = 0; j < tot_T1; j++) {
-				transition tr;
-				tr_init(&tr, t, a, T1[j]);
-				fa_addProd(&fRet, tr);
-				}
-			// Inserisco in R tutti gli elementi di T1 non ancora inseriti
-			for (int j = 0; j < tot_T1; j++) {
-				if (member(R, T1[j], &tot_R)) {
-
-					// E li segno come unmarked
-					}
-				}
-			}
-		// Selezione di t nel while
-		for (int i = 0; i < fa->tot_states; i++) {
-			for (int j = 0; j < tot_R; j++) {
-				if (fa->states[i] == R[j] && unmarked[j]) {
-					if (!exist_unmarked) {
-						exist_unmarked = true;
-						t = R[j];
-						unmarked[j] = false;
-						}
-					}
-				}
+	// Insert fin states
+	for (int i = 0; i < tot_names; i++) {
+		for (int j = 0; j < tot_R[i]; j++) {
+			if (member(fa->fin_states, R[i][j], fa->tot_finstates))
+				addElement(fRet.fin_states, fRet.states[i], &fRet.tot_finstates);
 			}
 		}
 
-	free(unmarked); */
 	return fRet;
 	}
 

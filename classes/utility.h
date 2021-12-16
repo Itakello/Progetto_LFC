@@ -11,16 +11,13 @@ bool is_voc(const char);
 bool is_nonTerm(const char);
 bool is_Term(const char);
 bool is_epsilon(const char);
-size_t getline(char**, size_t*, FILE*);
 void sort(char* word, const int dim);
 void swap(char* a, char* b);
 
 void parseLineG(char*, grammar*);
 bool getGrammarFile(grammar*, const char*);
-bool getGrammarCin(grammar*);
 
 void parseLineFA(char*, finiteAutoma*);
 bool getAutomaFile(finiteAutoma*, const char*);
-bool getAutomaCin(finiteAutoma*);
 
 #endif

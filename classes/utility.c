@@ -30,7 +30,6 @@ void swap(char* a, char* b) {
 	*b = temp;
 	}
 
-
 void sort(char* word, const int dim) {
 	for (int i = 0; i < dim - 1; i++) {
 		for (int j = i + 1; j < dim; j++) {
@@ -44,6 +43,7 @@ void sort(char* word, const int dim) {
 bool is_epsilon(const char c) {
 	return (c == '#');
 	}
+
 
 void parseLineG(char* line, grammar* g) {
 	if (line[strlen(line) - 1] == '\n')
@@ -72,8 +72,7 @@ void parseLineG(char* line, grammar* g) {
 bool getGrammarFile(grammar* g, const char* input) {
 	FILE* file = fopen(input, "r");
 	if (!file) { // File not existing
-		printf("File %s not found\n", input);
-		return false;
+		perr("File inputGrammar.txt not found\n", 1);
 		}
 	gram_init(g);
 	char line[LENGTH_LINE];
@@ -86,16 +85,6 @@ bool getGrammarFile(grammar* g, const char* input) {
 	return true;
 	}
 
-bool getGrammarCin(grammar* g) {
-	gram_init(g);
-	char* line = NULL;
-	size_t len = 0;
-	ssize_t read;
-	while ((read = getline(&line, &len, stdin)) != 1) {
-		parseLineG(line, g);
-		}
-	return true;
-	}
 
 void parseLineFA(char* line, finiteAutoma* fa) {
 	if (line[strlen(line) - 1] == '\n')
@@ -124,8 +113,7 @@ void parseLineFA(char* line, finiteAutoma* fa) {
 bool getAutomaFile(finiteAutoma* fa, const char* input) {
 	FILE* file = fopen(input, "r");
 	if (!file) { // File not existing
-		printf("File %s not found\n", input);
-		return false;
+		perr("File inputAutoma.txt not found\n", 1);
 		}
 	fa_init(fa);
 	char line[LENGTH_LINE];
@@ -141,60 +129,4 @@ bool getAutomaFile(finiteAutoma* fa, const char* input) {
 		pch = strtok(NULL, " ");
 		}
 	return true;
-	}
-
-bool getAutomaCin(finiteAutoma* fa) {
-
-	}
-
-size_t getline(char** lineptr, size_t* n, FILE* stream) {
-	char* bufptr = NULL;
-	char* p = bufptr;
-	size_t size;
-	int c;
-
-	if (lineptr == NULL) {
-		return -1;
-		}
-	if (stream == NULL) {
-		return -1;
-		}
-	if (n == NULL) {
-		return -1;
-		}
-	bufptr = *lineptr;
-	size = *n;
-
-	c = fgetc(stream);
-	if (c == EOF) {
-		return -1;
-		}
-	if (bufptr == NULL) {
-		bufptr = malloc(128);
-		if (bufptr == NULL) {
-			return -1;
-			}
-		size = 128;
-		}
-	p = bufptr;
-	while (c != EOF) {
-		if ((p - bufptr) > (size - 1)) {
-			size = size + 128;
-			bufptr = realloc(bufptr, size);
-			if (bufptr == NULL) {
-				return -1;
-				}
-			}
-		*p++ = c;
-		if (c == '\n') {
-			break;
-			}
-		c = fgetc(stream);
-		}
-
-	*p++ = '\0';
-	*lineptr = bufptr;
-	*n = size;
-
-	return p - bufptr - 1;
 	}

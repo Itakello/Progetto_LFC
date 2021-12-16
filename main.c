@@ -14,18 +14,14 @@ int main(int argc, char const* argv[]) {
 	scanf("%d", &input);
 	switch (input) {
 			case 0:
-				if (!getGrammarFile(&g, "inputGrammar.txt"))
-					getGrammarCin(&g);
+				getGrammarFile(&g, "inputGrammar.txt");
 				checkGrammar(&g);
 				gram_print(&g);
 				fa_init(&fa);
 				fa_addGram(&fa, &g);
-				fa_print(&fa);
 				break;
 			case 1:
-				if (!getAutomaFile(&fa, "inputAutoma.txt"))
-					getAutomaCin(&fa);
-				fa_print(&fa);
+				getAutomaFile(&fa, "inputAutoma.txt");
 				break;
 			case 2:
 				printf("Reg");
@@ -35,9 +31,11 @@ int main(int argc, char const* argv[]) {
 				break;
 		}
 
-	finiteAutoma f1 = rev(&fa);
+	fa_print(&fa);
+	/* finiteAutoma f1 = rev(&fa);
 	fa_print(&f1);
-	//det(&f1);
+	finiteAutoma f2 = det(&f1);
+	fa_print(&f2); */
 
 	return 0;
 	}
